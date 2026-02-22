@@ -572,23 +572,17 @@
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
       try {
-        /* ─── FIX #1: Use Firebase ID token instead of hardcoded API key ───
-           We get a fresh ID token from the signed-in user and send it
-           as a Bearer token. The n8n webhook should validate this.
-           
-           We also send the user's UID as sessionId so each user
-           gets their own conversation memory (FIX #3). */
+        /* ─── Auth: using x-api-key for now. 
+           TODO: migrate to Firebase ID token validation on n8n side ─── */
 
         const user = window.__quatschUser;
         if (!user) throw new Error("Not signed in");
-
-        const idToken = await user.getIdToken();
 
         const res = await fetch(WEBHOOK, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + idToken
+            "x-api-key": "studio-llull-secret-123"
           },
           body: JSON.stringify({
             input: message,
