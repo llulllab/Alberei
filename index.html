@@ -559,10 +559,10 @@ const res = await fetch(WEBHOOK, {
   body: JSON.stringify({ input: message })
 });
 
-        const text = await res.text();
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+const data = await res.json();
+if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
-        loader.textContent = text;
+loader.textContent = data.output || "No response";
         loader.classList.remove("loading");
 
         window.__quatschHistory.push({ role: "assistant", content: text });
