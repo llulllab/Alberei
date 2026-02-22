@@ -44,7 +44,7 @@
       opacity: 0.025;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
       pointer-events: none;
-      z-index: 9999;
+      z-index: 1;
     }
 
     .container {
@@ -55,6 +55,8 @@
       height: 92vh;
       max-height: 780px;
       animation: containerIn 0.8s ease-out;
+      position: relative;
+      z-index: 2;
     }
 
     @keyframes containerIn {
@@ -264,6 +266,7 @@
       font-family: 'EB Garamond', serif;
       font-size: 0.96rem;
       line-height: 1.7;
+      white-space: pre-wrap;
     }
 
     .msg.bot.error {
@@ -485,11 +488,27 @@
       signOutBtn.classList.add("hidden");
     }
 
+    /* ─── FIX #1: Firebase ID Token auth ─── 
+       Instead of exposing the API key in the frontend,
+       we send the Firebase ID token as a Bearer token.
+       The n8n webhook should validate this token server-side.
+       
+       We store the current user's ID token and refresh it
+       before each request. The token is also used as the
+       session key so each user gets their own memory. */
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         userEmailEl.textContent = user.email || user.displayName || "User";
+        // Store user info globally for the chat logic
+        window.__quatschUser = {
+          uid: user.uid,
+          email: user.email,
+          getIdToken: () => user.getIdToken(/* forceRefresh */ true)
+        };
         showChat();
       } else {
+        window.__quatschUser = null;
         showAuthGate();
       }
     });
@@ -506,7 +525,7 @@
       try {
         await signOut(auth);
         chatArea.innerHTML = "";
-        window.__quatschHistory = [];
+        window.__quatschUser = null;
       } catch (err) {
         console.error("Sign-out error:", err);
       }
@@ -520,10 +539,11 @@
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
 
-    window.__quatschHistory = [];
+    let isSending = false;
 
     input.addEventListener("keydown", e => {
-      if (e.key === "Enter") send();
+      /* FIX #5: Prevent double-send when Enter is pressed during a request */
+      if (e.key === "Enter" && !isSending) send();
     });
 
     function addMessage(text, role, classes = []) {
@@ -536,42 +556,82 @@
     }
 
     async function send() {
+      /* FIX #5: Guard against double invocations */
+      if (isSending) return;
+
       const message = input.value.trim();
       if (!message) return;
 
       addMessage(message, "user");
       input.value = "";
 
-      window.__quatschHistory.push({ role: "user", content: message });
-
+      isSending = true;
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>Wait';
 
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
       try {
+        /* ─── FIX #1: Use Firebase ID token instead of hardcoded API key ───
+           We get a fresh ID token from the signed-in user and send it
+           as a Bearer token. The n8n webhook should validate this.
+           
+           We also send the user's UID as sessionId so each user
+           gets their own conversation memory (FIX #3). */
+
+        const user = window.__quatschUser;
+        if (!user) throw new Error("Not signed in");
+
+        const idToken = await user.getIdToken();
+
         const res = await fetch(WEBHOOK, {
           method: "POST",
-headers: {
-  "Content-Type": "application/json",
-  "x-api-key": "studio-llull-secret-123"
-},
-body: JSON.stringify({ input: message })
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + idToken
+          },
+          body: JSON.stringify({
+            input: message,
+            sessionId: user.uid
+          })
         });
 
-        const text = await res.text();
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        if (!res.ok) throw new Error("Server error: " + res.status);
 
-        loader.textContent = text;
+        /* ─── FIX #2: Parse JSON response and extract the output field ───
+           The n8n Respond node returns: { "output": "...", "request_id": "..." }
+           We need to extract just the output field. */
+
+        const raw = await res.text();
+        let reply;
+
+        try {
+          const data = JSON.parse(raw);
+          // Handle various possible response shapes
+          if (data.output !== undefined) {
+            reply = typeof data.output === "string"
+              ? data.output
+              : JSON.stringify(data.output);
+          } else if (data.text !== undefined) {
+            reply = data.text;
+          } else {
+            // Fallback: show raw response if structure is unexpected
+            reply = raw;
+          }
+        } catch (parseErr) {
+          // If it's not JSON, treat it as plain text
+          reply = raw;
+        }
+
+        loader.textContent = reply;
         loader.classList.remove("loading");
-
-        window.__quatschHistory.push({ role: "assistant", content: text });
 
       } catch (err) {
         loader.textContent = "An error occurred: " + err.message;
         loader.classList.remove("loading");
         loader.classList.add("error");
       } finally {
+        isSending = false;
         btn.disabled = false;
         btn.textContent = "Send";
         input.focus();
