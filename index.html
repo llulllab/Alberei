@@ -550,22 +550,22 @@
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
       try {
-const res = await fetch(WEBHOOK, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "x-api-key": "studio-llull-secret-123"
-  },
-  body: JSON.stringify({ input: message })
-});
+        const res = await fetch(WEBHOOK, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "studio-llull-secret-123"
+          },
+          body: JSON.stringify({ input: message })
+        });
 
-const data = await res.json();
-if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
-loader.textContent = data.output || "No response";
+        const data = await res.json();
+        loader.textContent = data.output || "No response";
         loader.classList.remove("loading");
 
-        window.__quatschHistory.push({ role: "assistant", content: text });
+        window.__quatschHistory.push({ role: "assistant", content: data.output });
 
       } catch (err) {
         loader.textContent = "An error occurred: " + err.message;
