@@ -516,6 +516,7 @@
   <!-- Chat logic -->
   <script>
     const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const API_KEY = "studio-llull-secret-123";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -554,7 +555,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
+            "x-api-key": API_KEY
           },
           body: JSON.stringify({ input: message })
         });
@@ -562,10 +563,12 @@
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
         const data = await res.json();
-        loader.textContent = data.output || "No response";
+        const output = data.output || JSON.stringify(data);
+
+        loader.textContent = output;
         loader.classList.remove("loading");
 
-        window.__quatschHistory.push({ role: "assistant", content: data.output });
+        window.__quatschHistory.push({ role: "assistant", content: output });
 
       } catch (err) {
         loader.textContent = "An error occurred: " + err.message;
