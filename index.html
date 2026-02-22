@@ -552,8 +552,11 @@
       try {
         const res = await fetch(WEBHOOK, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message, history: window.__quatschHistory })
+headers: {
+  "Content-Type": "application/json",
+  "x-api-key": "studio-llull-secret-123"
+},
+body: JSON.stringify({ input: message })
         });
 
         const text = await res.text();
