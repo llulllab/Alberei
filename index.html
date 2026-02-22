@@ -550,11 +550,14 @@
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
       try {
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message, history: window.__quatschHistory })
-        });
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-api-key": "studio-llull-secret-123"
+  },
+  body: JSON.stringify({ input: message })
+});
 
         const text = await res.text();
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
