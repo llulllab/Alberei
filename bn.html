@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alberei — মডুলার হাস্যরস যন্ত্র</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface-elevated: #181818;
+      --border: #222222;
+      --border-light: #2a2a2a;
+      --text-primary: #e8e4de;
+      --text-secondary: #8a857e;
+      --text-muted: #5a5650;
+      --accent: #c9b99a;
+      --accent-dim: rgba(201, 185, 154, 0.08);
+      --user-bg: #1c1a17;
+      --error: #a0413a;
+      --matrix-green: #00ff41;
+      --matrix-green-dim: rgba(0, 255, 65, 0.08);
+      --matrix-green-mid: rgba(0, 255, 65, 0.35);
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      height: 92vh;
+      max-height: 780px;
+      animation: containerIn 0.8s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes containerIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 2.5rem 0 1.2rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    header .tagline {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      font-weight: 400;
+    }
+
+    /* ── Auth controls in header ── */
+    .auth-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      align-self: center;
+    }
+
+    .user-email {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .auth-btn {
+      padding: 0.4rem 0.8rem;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .auth-btn:hover {
+      color: var(--error);
+      border-color: var(--error);
+      background: rgba(160, 65, 58, 0.06);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── Auth Gate ── */
+    .auth-gate {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ── App Logo ── */
+    .app-logo {
+      width: 100%;
+      max-width: 196px;
+      height: auto;
+      display: block;
+      border: 1px solid var(--border-light);
+      margin-top: 1.2rem;
+    }
+
+    /* ── Matrix-style feature text ── */
+    .matrix-features {
+      max-width: 460px;
+      text-align: left;
+      padding: 1rem 1.2rem;
+      background: var(--matrix-green-dim);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      position: relative;
+    }
+
+    .matrix-features::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 65, 0.03) 2px,
+          rgba(0, 255, 65, 0.03) 4px
+        );
+      pointer-events: none;
+    }
+
+    .matrix-features p {
+      font-family: 'Share Tech Mono', 'Noto Sans Bengali', monospace;
+      font-size: 0.72rem;
+      color: var(--matrix-green);
+      line-height: 1.8;
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .matrix-features p + p {
+      margin-top: 0.35rem;
+    }
+
+    .matrix-features .try-this {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    .google-sign-in-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .google-sign-in-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .google-sign-in-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Chat Area ── */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.4rem 0.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-light) transparent;
+    }
+
+    .chat-area:empty::before {
+      content: 'পরিস্থিতি বর্ণনা করুন। বাকিটা আমার উপর ছেড়ে দিন।';
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-style: italic;
+      letter-spacing: 0.01em;
+      align-self: center;
+      margin-top: 30%;
+      font-family: 'Noto Sans Bengali', 'EB Garamond', serif;
+    }
+
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-track { background: transparent; }
+    .chat-area::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+    /* ── Messages ── */
+    .msg {
+      max-width: 82%;
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      letter-spacing: 0.005em;
+      animation: msgIn 0.35s ease-out;
+      position: relative;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--user-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      color: var(--text-primary);
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: transparent;
+      color: var(--text-secondary);
+      padding-left: 1rem;
+      border-left: 2px solid var(--accent);
+      font-family: 'Noto Sans Bengali', 'EB Garamond', serif;
+      font-size: 0.96rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .msg.bot.error {
+      border-left-color: var(--error);
+      color: var(--error);
+    }
+
+    .msg.bot.loading {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── Input Area ── */
+    .input-area {
+      flex-shrink: 0;
+      padding-top: 0.8rem;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s ease;
+    }
+
+    .input-row:focus-within {
+      border-color: var(--accent);
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    button#btn {
+      padding: 0.85rem 1.6rem;
+      background: transparent;
+      color: var(--accent);
+      border: none;
+      border-left: 1px solid var(--border);
+      font-family: 'Noto Sans Bengali', 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    button#btn:hover {
+      background: var(--accent-dim);
+      color: var(--text-primary);
+    }
+
+    button#btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--accent);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    footer a {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .llull-logo {
+      width: 48px;
+      height: auto;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
+
+    .llull-logo:hover {
+      opacity: 0.8;
+    }
+
+    /* ── Utility ── */
+    .hidden { display: none !important; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      body { padding: 1rem; }
+      .container { height: 96vh; max-height: none; }
+      header h1 { font-size: 1.5rem; }
+      .msg { max-width: 90%; }
+      .user-email { max-width: 100px; }
+      .matrix-features { max-width: 100%; }
+      .matrix-features p { font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Alberei</h1>
+        <span class="tagline">মডুলার হাস্যরস যন্ত্র</span>
+      </div>
+      <div class="auth-controls">
+        <span class="user-email hidden" id="userEmail"></span>
+        <button class="auth-btn hidden" id="signOutBtn">লগ আউট</button>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Auth Gate: shown when NOT signed in -->
+    <div class="auth-gate" id="authGate">
+      <img
+        class="app-logo"
+        src="https://raw.githubusercontent.com/llulllab/Quatsch/main/Alberei.jpg"
+        alt="Alberei"
+      />
+
+      <div class="matrix-features">
+        <p>▸ আপনি কি একটি চাপের চাকরির ইন্টারভিউতে পুরোপুরি প্রস্তুত হয়ে যেতে চান?</p>
+        <p>▸ আপনি কি কোনো লেখা লিখছেন এবং এর একটি মজার সংস্করণ দরকার?</p>
+        <p>▸ আপনি কি চান যে কেউ আপনাকে ক্ষমা করুক?</p>
+        <p>▸ আপনার বন্ধুরা কি খুব বিরক্তিকর?</p>
+        <p class="try-this">এটি ব্যবহার করে দেখুন!</p>
+      </div>
+
+      <button class="google-sign-in-btn" id="googleSignInBtn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11.96 11.96 0 0 0 1 12c0 1.94.46 3.77 1.18 5.07l3.66-2.98z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Google দিয়ে সাইন ইন করুন
+      </button>
+    </div>
+
+    <!-- Chat: shown when signed in -->
+    <div class="chat-area hidden" id="chat"></div>
+
+    <div class="input-area hidden" id="inputArea">
+      <div class="divider" style="margin-bottom: 0.8rem;"></div>
+      <div class="input-row">
+        <input type="text" id="msg" placeholder="আমাকে পরিস্থিতি সম্পর্কে বলুন…" autocomplete="off" />
+        <button id="btn" onclick="send()">পাঠান</button>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://llulllab.com" target="_blank" rel="noopener">Llull Lab</a>
+      <a href="https://llulllab.com" target="_blank" rel="noopener">
+        <img
+          class="llull-logo"
+          src="https://raw.githubusercontent.com/llulllab/llulllab.github.io/main/LULL%20Logo.png"
+          alt="Llull Lab"
+        />
+      </a>
+    </footer>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXNEC1m3WQEuaZ8gweofE5Iso_MiFGaw0",
+      authDomain: "quatsch-2922c.firebaseapp.com",
+      projectId: "quatsch-2922c",
+      storageBucket: "quatsch-2922c.firebasestorage.app",
+      messagingSenderId: "29651227144",
+      appId: "1:29651227144:web:430df7451fc4426bffb7bd",
+      measurementId: "G-ERXHZQ4WWN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const authGate     = document.getElementById("authGate");
+    const chatArea     = document.getElementById("chat");
+    const inputArea    = document.getElementById("inputArea");
+    const googleBtn    = document.getElementById("googleSignInBtn");
+    const signOutBtn   = document.getElementById("signOutBtn");
+    const userEmailEl  = document.getElementById("userEmail");
+    const msgInput     = document.getElementById("msg");
+
+    function showChat() {
+      authGate.classList.add("hidden");
+      chatArea.classList.remove("hidden");
+      inputArea.classList.remove("hidden");
+      userEmailEl.classList.remove("hidden");
+      signOutBtn.classList.remove("hidden");
+      msgInput.focus();
+    }
+
+    function showAuthGate() {
+      authGate.classList.remove("hidden");
+      chatArea.classList.add("hidden");
+      inputArea.classList.add("hidden");
+      userEmailEl.classList.add("hidden");
+      signOutBtn.classList.add("hidden");
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userEmailEl.textContent = user.email || user.displayName || "ব্যবহারকারী";
+        window.__quatschUser = {
+          uid: user.uid,
+          email: user.email,
+          getIdToken: () => user.getIdToken(true)
+        };
+        showChat();
+      } else {
+        window.__quatschUser = null;
+        showAuthGate();
+      }
+    });
+
+    googleBtn.addEventListener("click", async () => {
+      try {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+      } catch (err) {
+        console.error("সাইন-ইন ত্রুটি:", err);
+      }
+    });
+
+    signOutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        chatArea.innerHTML = "";
+        window.__quatschUser = null;
+      } catch (err) {
+        console.error("লগ-আউট ত্রুটি:", err);
+      }
+    });
+  </script>
+
+  <!-- Chat logic -->
+  <script>
+    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const chat    = document.getElementById("chat");
+    const input   = document.getElementById("msg");
+    const btn     = document.getElementById("btn");
+
+    let isSending = false;
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !isSending) send();
+    });
+
+    function addMessage(text, role, classes = []) {
+      const div = document.createElement("div");
+      div.className = ["msg", role, ...classes].join(" ");
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    async function send() {
+      if (isSending) return;
+
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage(message, "user");
+      input.value = "";
+
+      isSending = true;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>অপেক্ষা করুন';
+
+      const loader = addMessage("\u2026", "bot", ["loading"]);
+
+      try {
+        const user = window.__quatschUser;
+        if (!user) throw new Error("সাইন ইন করা হয়নি");
+
+        const res = await fetch(WEBHOOK, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "studio-llull-secret-123"
+          },
+          body: JSON.stringify({
+            input: message,
+            sessionId: user.uid
+          })
+        });
+
+        if (!res.ok) throw new Error("সার্ভার ত্রুটি: " + res.status);
+
+        const raw = await res.text();
+        let reply;
+
+        try {
+          const data = JSON.parse(raw);
+          if (data.output !== undefined) {
+            reply = typeof data.output === "string"
+              ? data.output
+              : JSON.stringify(data.output);
+          } else if (data.text !== undefined) {
+            reply = data.text;
+          } else {
+            reply = raw;
+          }
+        } catch (parseErr) {
+          reply = raw;
+        }
+
+        loader.textContent = reply;
+        loader.classList.remove("loading");
+
+      } catch (err) {
+        loader.textContent = "একটি ত্রুটি ঘটেছে: " + err.message;
+        loader.classList.remove("loading");
+        loader.classList.add("error");
+      } finally {
+        isSending = false;
+        btn.disabled = false;
+        btn.textContent = "পাঠান";
+        input.focus();
+      }
+    }
+  </script>
+</body>
+</html>
