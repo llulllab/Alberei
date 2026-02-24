@@ -163,15 +163,29 @@
 
     /* ── App Logo ── */
     .app-logo {
-      width: 100%;
-      max-width: 196px;
-      height: auto;
-      display: block;
+      width: 196px;
+      height: 196px;
       border: 1px solid var(--border-light);
       margin-top: 1.2rem;
+
+      border-radius: 50%;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: transparent;
     }
 
-    /* ── Matrix-style feature text ── */
+    .app-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      /* Crops transparent padding inside the PNG */
+      transform: scale(1.22);
+      transform-origin: center;
+      display: block;
+    }
+/* ── Matrix-style feature text ── */
     .matrix-features {
       max-width: 460px;
       text-align: left;
@@ -464,13 +478,11 @@
 
     <!-- Auth Gate: shown when NOT signed in -->
     <div class="auth-gate" id="authGate">
-      <img
-        class="app-logo"
-        src="https://raw.githubusercontent.com/llulllab/Quatsch/main/Alberei.jpg"
-        alt="Alberei"
-      />
+      <div class="app-logo">
+        <img src="alberei.png" alt="Alberei" />
+      </div>
 
-      <div class="matrix-features">
+<div class="matrix-features">
         <p>▸ Deseja chegar perfeitamente preparado a uma entrevista de emprego stressante?</p>
         <p>▸ Está a redigir um texto e precisa de uma versão engraçada?</p>
         <p>▸ Deseja que alguém o perdoe?</p>
