@@ -244,7 +244,34 @@
       height: 16px;
       flex-shrink: 0;
     }
+<!-- Sign-in consent line — place directly below the Google Sign-In button -->
+<p class="signin-consent">
+  By signing in, you agree to our
+  <a href="legal.html#terms" target="_blank">Terms of Use</a> and
+  <a href="legal.html#privacy" target="_blank">Privacy Policy</a>.
+</p>
 
+<style>
+  .signin-consent {
+    font-size: 0.72rem;
+    color: var(--text-muted, #5a5650);
+    text-align: center;
+    margin-top: 0.75rem;
+    letter-spacing: 0.01em;
+    font-weight: 300;
+  }
+
+  .signin-consent a {
+    color: var(--accent, #c9b99a);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .signin-consent a:hover {
+    border-bottom-color: var(--accent, #c9b99a);
+  }
+</style>
     /* ── Chat Area ── */
     .chat-area {
       flex: 1;
