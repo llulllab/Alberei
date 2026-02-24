@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alberei — मॉड्यूलर हास्य मशीन</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -31,7 +31,7 @@
     body {
       background: var(--bg);
       color: var(--text-primary);
-      font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,10 +92,10 @@
     }
 
     header .tagline {
-      font-family: 'Noto Sans Devanagari', sans-serif;
       font-size: 0.72rem;
       color: var(--text-muted);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       font-weight: 400;
     }
 
@@ -122,10 +122,11 @@
       background: transparent;
       color: var(--text-muted);
       border: 1px solid var(--border);
-      font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.65rem;
       font-weight: 500;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -162,15 +163,29 @@
 
     /* ── App Logo ── */
     .app-logo {
-      width: 100%;
-      max-width: 196px;
-      height: auto;
-      display: block;
+      width: 196px;
+      height: 196px;
       border: 1px solid var(--border-light);
       margin-top: 1.2rem;
+
+      border-radius: 50%;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: transparent;
     }
 
-    /* ── Matrix-style feature text ── */
+    .app-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      /* Crops transparent padding inside the PNG */
+      transform: scale(1.22);
+      transform-origin: center;
+      display: block;
+    }
+/* ── Matrix-style feature text ── */
     .matrix-features {
       max-width: 460px;
       text-align: left;
@@ -196,10 +211,10 @@
     }
 
     .matrix-features p {
-      font-family: 'Share Tech Mono', 'Noto Sans Devanagari', monospace;
+      font-family: 'Share Tech Mono', monospace;
       font-size: 0.72rem;
       color: var(--matrix-green);
-      line-height: 1.8;
+      line-height: 1.6;
       text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
       position: relative;
       z-index: 1;
@@ -213,7 +228,8 @@
       margin-top: 1rem;
       text-align: center;
       font-size: 0.85rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
     }
 
     .google-sign-in-btn {
@@ -224,7 +240,7 @@
       background: var(--surface);
       border: 1px solid var(--border-light);
       color: var(--text-primary);
-      font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -256,14 +272,14 @@
     }
 
     .chat-area:empty::before {
-      content: 'स्थिति का वर्णन कीजिए। बाकी मुझ पर छोड़ दीजिए।';
+      content: 'परिस्थिति का वर्णन करें। बाकी मुझ पर छोड़ दें।';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
       letter-spacing: 0.01em;
       align-self: center;
       margin-top: 30%;
-      font-family: 'Noto Sans Devanagari', 'EB Garamond', serif;
+      font-family: 'EB Garamond', serif;
     }
 
     .chat-area::-webkit-scrollbar { width: 4px; }
@@ -275,7 +291,7 @@
       max-width: 82%;
       padding: 0.7rem 1rem;
       font-size: 0.88rem;
-      line-height: 1.8;
+      line-height: 1.65;
       letter-spacing: 0.005em;
       animation: msgIn 0.35s ease-out;
       position: relative;
@@ -300,9 +316,9 @@
       color: var(--text-secondary);
       padding-left: 1rem;
       border-left: 2px solid var(--accent);
-      font-family: 'Noto Sans Devanagari', 'EB Garamond', serif;
+      font-family: 'EB Garamond', serif;
       font-size: 0.96rem;
-      line-height: 1.8;
+      line-height: 1.7;
       white-space: pre-wrap;
     }
 
@@ -338,7 +354,7 @@
     input[type="text"] {
       flex: 1;
       padding: 0.85rem 1rem;
-      font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.88rem;
       border: none;
       background: transparent;
@@ -358,10 +374,11 @@
       color: var(--accent);
       border: none;
       border-left: 1px solid var(--border);
-      font-family: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -453,7 +470,7 @@
       </div>
       <div class="auth-controls">
         <span class="user-email hidden" id="userEmail"></span>
-        <button class="auth-btn hidden" id="signOutBtn">लॉग आउट</button>
+        <button class="auth-btn hidden" id="signOutBtn">साइन आउट</button>
       </div>
     </header>
 
@@ -461,18 +478,16 @@
 
     <!-- Auth Gate: shown when NOT signed in -->
     <div class="auth-gate" id="authGate">
-      <img
-        class="app-logo"
-        src="https://raw.githubusercontent.com/llulllab/Quatsch/main/Alberei.jpg"
-        alt="Alberei"
-      />
+      <div class="app-logo">
+        <img src="alberei.png" alt="Alberei" />
+      </div>
 
-      <div class="matrix-features">
-        <p>▸ क्या आप एक तनावपूर्ण नौकरी के इंटरव्यू में पूरी तैयारी के साथ जाना चाहते हैं?</p>
-        <p>▸ क्या आप कोई टेक्स्ट लिख रहे हैं और उसका एक मज़ेदार संस्करण चाहिए?</p>
-        <p>▸ क्या आप चाहते हैं कि कोई आपको माफ़ कर दे?</p>
+<div class="matrix-features">
+        <p>▸ क्या आप एक तनावपूर्ण साक्षात्कार के लिए पूरी तरह तैयार होना चाहते हैं?</p>
+        <p>▸ क्या आप एक पाठ लिख रहे हैं और उसकी मजेदार संस्करण चाहते हैं?</p>
+        <p>▸ क्या आप चाहते हैं कि कोई आपको माफ कर दे?</p>
         <p>▸ क्या आपके दोस्त बहुत उबाऊ हैं?</p>
-        <p class="try-this">इसे आज़माइए!</p>
+        <p class="try-this">इसे आज़माएँ!</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -485,9 +500,9 @@
         Google से साइन इन करें
       </button>
       <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  साइन इन करके, आप हमारी
+  साइन इन करके आप हमारी
   <a href="legal.html#terms" style="color:#c9b99a;">उपयोग की शर्तें</a> और
-  <a href="legal.html#privacy" style="color:#c9b99a;">गोपनीयता नीति</a> स्वीकार करते हैं।
+  <a href="legal.html#privacy" style="color:#c9b99a;">गोपनीयता नीति</a> से सहमत होते हैं।
 </p>
     </div>
 
@@ -497,7 +512,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="मुझे स्थिति के बारे में बताइए…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="मुझे स्थिति के बारे में बताएं…" autocomplete="off" />
         <button id="btn" onclick="send()">भेजें</button>
       </div>
     </div>
@@ -576,7 +591,7 @@
       try {
         await signInWithPopup(auth, new GoogleAuthProvider());
       } catch (err) {
-        console.error("साइन-इन त्रुटि:", err);
+        console.error("साइन इन त्रुटि:", err);
       }
     });
 
@@ -586,7 +601,7 @@
         chatArea.innerHTML = "";
         window.__quatschUser = null;
       } catch (err) {
-        console.error("लॉग-आउट त्रुटि:", err);
+        console.error("साइन आउट त्रुटि:", err);
       }
     });
   </script>
@@ -624,13 +639,13 @@
 
       isSending = true;
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>प्रतीक्षा करें';
+      btn.innerHTML = '<span class="spinner"></span>रुकिए';
 
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
       try {
         const user = window.__quatschUser;
-        if (!user) throw new Error("साइन इन नहीं किया गया");
+        if (!user) throw new Error("साइन इन नहीं हैं");
 
         const res = await fetch(WEBHOOK, {
           method: "POST",
@@ -668,7 +683,7 @@
         loader.classList.remove("loading");
 
       } catch (err) {
-        loader.textContent = "एक त्रुटि हुई: " + err.message;
+        loader.textContent = "एक त्रुटि हुई है: " + err.message;
         loader.classList.remove("loading");
         loader.classList.add("error");
       } finally {
