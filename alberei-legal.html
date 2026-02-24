@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberei — Legal Notice & Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0C0B0F;
+    --bg-card: #13121A;
+    --bg-card-hover: #1A1923;
+    --border: #2A2836;
+    --border-light: #1E1D28;
+    --text: #C8C5D0;
+    --text-dim: #807D8E;
+    --text-heading: #EEEDF2;
+    --accent: #A89BFC;
+    --accent-dim: rgba(168,155,252,0.12);
+    --accent-glow: rgba(168,155,252,0.06);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  body {
+    font-family: var(--sans);
+    font-size: 15.5px;
+    line-height: 1.72;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── LAYOUT ── */
+  .page-wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+    position: relative;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 72px;
+    position: relative;
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .logo-text {
+    font-family: var(--serif);
+    font-size: 52px;
+    color: var(--text-heading);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .subtitle {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    animation: fadeDown 0.8s ease 0.1s both;
+  }
+
+  .last-updated {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-style: italic;
+    animation: fadeDown 0.8s ease 0.2s both;
+  }
+
+  /* ── NAVIGATION ── */
+  .doc-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: 56px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .doc-nav button {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 16px 0;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .doc-nav button:hover { color: var(--text); }
+
+  .doc-nav button.active { color: var(--accent); }
+
+  .doc-nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    animation: scaleX 0.3s ease;
+  }
+
+  /* ── SECTIONS ── */
+  .doc-section { display: none; }
+  .doc-section.active {
+    display: block;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--text-heading);
+    margin-bottom: 48px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+    letter-spacing: 0.5px;
+  }
+
+  .article-heading {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--text-heading);
+    margin: 48px 0 16px 0;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .article-heading::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  .article-heading .num {
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+    opacity: 0.8;
+  }
+
+  /* ── PARAGRAPHS ── */
+  p {
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  /* ── LISTS ── */
+  .legal-list {
+    list-style: none;
+    margin: 16px 0 24px 0;
+    padding: 0;
+  }
+
+  .legal-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    font-weight: 300;
+  }
+
+  .legal-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+
+  .highlight-box p {
+    margin-bottom: 0;
+    color: var(--text-heading);
+    font-weight: 400;
+  }
+
+  /* ── LINKS ── */
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  a:hover { border-bottom-color: var(--accent); }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 56px 0;
+    position: relative;
+  }
+
+  .section-divider::after {
+    content: '§';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    padding: 0 16px;
+    color: var(--text-dim);
+    font-family: var(--serif);
+    font-size: 18px;
+    opacity: 0.4;
+  }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border-light);
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .page-footer .lab-name {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .page-footer .contact {
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleX {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 48px 20px 80px; }
+    .logo-text { font-size: 36px; letter-spacing: 4px; }
+    .section-title { font-size: 24px; }
+    .article-heading { font-size: 18px; }
+    .doc-nav button { font-size: 11px; letter-spacing: 1.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="logo-text">Alberei</div>
+    <div class="subtitle">Legal Notice & Privacy Policy</div>
+    <div class="last-updated">Last updated: 24 February 2026</div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav class="doc-nav">
+    <button class="active" onclick="switchTab('privacy')">Privacy Policy</button>
+    <button onclick="switchTab('terms')">Terms of Use</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- PRIVACY POLICY                              -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="privacy" class="doc-section active">
+
+    <h1 class="section-title">Privacy Policy</h1>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 1</span>
+      Introduction
+    </div>
+    <p>This Privacy Policy explains how Alberei, developed by Llull Lab, handles personal data. Alberei is designed to operate with minimal data exposure.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 2</span>
+      Authentication Data
+    </div>
+    <p>Alberei uses Google Sign-In via Firebase Authentication. When signing in, we may receive:</p>
+    <ul class="legal-list">
+      <li>Email address</li>
+      <li>Display name</li>
+      <li>A unique authentication identifier</li>
+    </ul>
+    <p>This data is used exclusively for authentication and account management purposes.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 3</span>
+      User Prompts and Processing
+    </div>
+    <p>Alberei does not intentionally store user prompts. User inputs are processed transiently for the sole purpose of generating a response. Prompts are not retained for manual review, profiling, or behavioral tracking.</p>
+    <p>Llull Lab does not perform systematic monitoring of user inputs or generated outputs but reserves the right to implement technical or access restrictions where required by law or in cases of misuse.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 4</span>
+      Data Sharing
+    </div>
+    <p>We do not sell, rent, or trade personal data.</p>
+    <p>Authentication services are provided through Google Firebase, which may process data according to its own privacy policies. For more information, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+    <p>Authentication data may be processed by Google on servers located outside the European Union, in accordance with Google's data processing terms.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 5</span>
+      Cookies and Analytics
+    </div>
+    <p>Alberei does not use third-party analytics or tracking cookies. Authentication-related cookies may be set by Firebase for session management purposes only.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 6</span>
+      Data Retention
+    </div>
+    <p>Authentication-related data is retained only as long as the user account remains active. Users may request deletion of their authentication data at any time by contacting: <a href="mailto:contact@llulllab.com">contact@llulllab.com</a></p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 7</span>
+      User Rights (GDPR / CNIL)
+    </div>
+    <p>In accordance with applicable data protection laws, including the General Data Protection Regulation (GDPR) and CNIL regulations, users may request:</p>
+    <ul class="legal-list">
+      <li>Access to their personal data</li>
+      <li>Correction of inaccurate data</li>
+      <li>Deletion of their authentication-related data</li>
+      <li>Portability of their data</li>
+    </ul>
+    <p>Requests may be sent to: <a href="mailto:contact@llulllab.com">contact@llulllab.com</a></p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 8</span>
+      Security
+    </div>
+    <p>Reasonable technical measures are implemented through Firebase Authentication to protect authentication-related data. However, no system can guarantee absolute security.</p>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- TERMS OF USE                                -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section id="terms" class="doc-section">
+
+    <h1 class="section-title">Terms of Use</h1>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 1</span>
+      Acceptance of Terms
+    </div>
+    <p>By accessing and using Alberei, you acknowledge the potentially provocative nature of generated content and accept these Terms in full. If you do not agree with these Terms, you must not use the service.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 2</span>
+      Eligibility
+    </div>
+    <div class="highlight-box">
+      <p>You must be at least 18 years old to use Alberei. By using the service, you confirm that you meet this age requirement.</p>
+    </div>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 3</span>
+      Nature of the Service
+    </div>
+    <p>Alberei is an automated humor generation system. It produces satirical, ironic, exaggerated, and absurd content. Satire, by its nature, may intentionally cross conventional boundaries of language, taste, or social norms.</p>
+    <p>Generated outputs:</p>
+    <ul class="legal-list">
+      <li>Are produced algorithmically</li>
+      <li>Do not represent the views of Llull Lab</li>
+      <li>May contain provocative or controversial expressions</li>
+    </ul>
+    <p>The service is provided for entertainment and experimental purposes only. Generated content must not be interpreted as factual statements, endorsements, or legal advice.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 4</span>
+      User Responsibility
+    </div>
+    <p>By using Alberei, you agree:</p>
+    <ul class="legal-list">
+      <li>Not to generate or distribute unlawful, defamatory, violent, discriminatory, or harmful content</li>
+      <li>Not to use the system for harassment or illegal activities</li>
+      <li>That you are solely responsible for how generated outputs are used, shared, or interpreted</li>
+    </ul>
+    <p>Llull Lab reserves the right to restrict or terminate access in cases of misuse.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 5</span>
+      Intellectual Property
+    </div>
+    <p>Users retain ownership of their prompts. Generated outputs may be used freely, including commercially. Llull Lab does not guarantee originality or non-infringement in the copyright sense. Users must not submit copyrighted, confidential, or sensitive material.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 6</span>
+      Limitation of Liability
+    </div>
+    <p>Alberei provides outputs "as-is". To the fullest extent permitted by applicable law, Llull Lab shall not be liable for:</p>
+    <ul class="legal-list">
+      <li>Any interpretation of generated content as factual</li>
+      <li>Any reputational, financial, or personal harm resulting from generated outputs</li>
+      <li>Any damages arising from misuse of the system, including indirect, incidental, or consequential damages</li>
+    </ul>
+    <p>Use of the service is at the user's own risk.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 7</span>
+      Indemnification
+    </div>
+    <p>By using Alberei, you agree to indemnify, defend, and hold harmless Llull Lab, its founders, affiliates, and collaborators from and against any claims, liabilities, damages, losses, costs, or expenses (including legal fees) arising out of:</p>
+    <ul class="legal-list">
+      <li>Your use or misuse of the service</li>
+      <li>Your generated or distributed content</li>
+      <li>Any violation of applicable laws</li>
+      <li>Any infringement of third-party rights</li>
+    </ul>
+    <p>You acknowledge that you are solely responsible for the prompts you submit and the manner in which generated outputs are used or disseminated.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 8</span>
+      Changes to these Terms
+    </div>
+    <p>Llull Lab reserves the right to update these Terms at any time. The date of the last update will be indicated at the top of this document. Continued use of the service following any changes constitutes acceptance of the revised Terms.</p>
+
+    <div class="article-heading">
+      <span class="num">ARTICLE 9</span>
+      Governing Law and Jurisdiction
+    </div>
+    <p>These Terms are governed by the laws of France. Any disputes arising from or related to the use of Alberei shall be subject to the exclusive jurisdiction of the competent courts of Paris, France.</p>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <div class="lab-name">Llull Lab</div>
+    <div class="contact">For questions or concerns: <a href="mailto:contact@llulllab.com">contact@llulllab.com</a></div>
+  </footer>
+
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.doc-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
