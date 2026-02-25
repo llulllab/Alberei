@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alberei — Modulare Humor-Maschine</title>
+  <title>Alberei — Modulare Humormaschine</title>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -272,7 +272,7 @@
     }
 
     .chat-area:empty::before {
-      content: 'Beschreiben Sie die Situation. Den Rest überlassen Sie mir.';
+      content: 'Beschreib die Situation. Den Rest übernehme ich.';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
@@ -466,7 +466,7 @@
     <header>
       <div class="brand">
         <h1>Alberei</h1>
-        <span class="tagline">Modulare Humor-Maschine</span>
+        <span class="tagline">Modulare Humormaschine</span>
       </div>
       <div class="auth-controls">
         <span class="user-email hidden" id="userEmail"></span>
@@ -483,11 +483,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ Möchten Sie top vorbereitet in ein angespanntes Vorstellungsgespräch gehen?</p>
-        <p>▸ Schreiben Sie einen Text und brauchen eine lustige Version davon?</p>
-        <p>▸ Möchten Sie, dass Ihnen jemand verzeiht?</p>
-        <p>▸ Sind Ihre Freunde zu langweilig?</p>
-        <p class="try-this">Probieren Sie es aus!</p>
+        <p>▸ Willst du bestens vorbereitet in ein angespanntes Vorstellungsgespräch gehen?</p>
+        <p>▸ Schreibst du einen Text und brauchst eine witzige Version davon?</p>
+        <p>▸ Willst du, dass dir jemand verzeiht?</p>
+        <p>▸ Sind deine Freunde zu langweilig?</p>
+        <p class="try-this">Probier's aus!</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -499,11 +499,12 @@
         </svg>
         Mit Google anmelden
       </button>
+
       <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  Mit der Anmeldung stimmen Sie unseren
-  <a href="legal.html#terms" style="color:#c9b99a;">Nutzungsbedingungen</a> und der
-  <a href="legal.html#privacy" style="color:#c9b99a;">Datenschutzerklärung</a> zu.
-</p>
+        Mit der Anmeldung stimmst du unseren
+        <a href="legal.html#terms" style="color:#c9b99a;">Nutzungsbedingungen</a> und der
+        <a href="legal.html#privacy" style="color:#c9b99a;">Datenschutzerklärung</a> zu.
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -512,7 +513,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="Erzählen Sie mir von der Situation…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="Erzähl mir von der Situation…" autocomplete="off" />
         <button id="btn" onclick="send()">Senden</button>
       </div>
     </div>
@@ -608,7 +609,7 @@
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -639,7 +640,7 @@
 
       isSending = true;
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Warte';
+      btn.innerHTML = '<span class="spinner"></span>Moment';
 
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
@@ -647,17 +648,19 @@
         const user = window.__quatschUser;
         if (!user) throw new Error("Nicht angemeldet");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("Serverfehler: " + res.status);
 
