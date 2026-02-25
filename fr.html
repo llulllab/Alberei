@@ -272,7 +272,7 @@
     }
 
     .chat-area:empty::before {
-      content: 'Décrivez la situation. Laissez-moi faire le reste.';
+      content: 'Décris la situation. Je m'occupe du reste.';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
@@ -483,11 +483,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ Vous voulez arriver parfaitement préparé à un entretien d'embauche stressant ?</p>
-        <p>▸ Vous rédigez un texte et vous avez besoin d'une version drôle ?</p>
-        <p>▸ Vous voulez que quelqu'un vous pardonne ?</p>
-        <p>▸ Vos amis sont trop ennuyeux ?</p>
-        <p class="try-this">Essayez !</p>
+        <p>▸ Tu veux arriver parfaitement préparé à un entretien d'embauche stressant ?</p>
+        <p>▸ Tu rédiges un texte et tu as besoin d'une version drôle ?</p>
+        <p>▸ Tu veux te faire pardonner par quelqu'un ?</p>
+        <p>▸ Tes amis sont trop ennuyeux ?</p>
+        <p class="try-this">Essaie !</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -499,11 +499,12 @@
         </svg>
         Se connecter avec Google
       </button>
+
       <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  En vous connectant, vous acceptez nos
-  <a href="legal.html#terms" style="color:#c9b99a;">Conditions d'utilisation</a> et notre
-  <a href="legal.html#privacy" style="color:#c9b99a;">Politique de confidentialité</a>.
-</p>
+        En vous connectant, vous acceptez nos
+        <a href="legal.html#terms" style="color:#c9b99a;">Conditions d'utilisation</a> et notre
+        <a href="legal.html#privacy" style="color:#c9b99a;">Politique de confidentialité</a>.
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -512,7 +513,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="Décrivez-moi la situation…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="Décris-moi la situation…" autocomplete="off" />
         <button id="btn" onclick="send()">Envoyer</button>
       </div>
     </div>
@@ -608,7 +609,7 @@
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -647,17 +648,19 @@
         const user = window.__quatschUser;
         if (!user) throw new Error("Non connecté");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("Erreur serveur : " + res.status);
 
