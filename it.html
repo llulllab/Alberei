@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alberei — Macchina Modulare dell'Umorismo</title>
+  <title>Alberei — Macchina dell'Umorismo Modulare</title>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -272,7 +272,7 @@
     }
 
     .chat-area:empty::before {
-      content: 'Descrivi la situazione. Lascia il resto a me.';
+      content: 'Descrivi la situazione. Al resto ci penso io.';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
@@ -466,7 +466,7 @@
     <header>
       <div class="brand">
         <h1>Alberei</h1>
-        <span class="tagline">Macchina Modulare dell'Umorismo</span>
+        <span class="tagline">Macchina dell'Umorismo Modulare</span>
       </div>
       <div class="auth-controls">
         <span class="user-email hidden" id="userEmail"></span>
@@ -483,11 +483,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ Vuoi affrontare un colloquio di lavoro teso con la massima preparazione?</p>
-        <p>▸ Stai scrivendo un testo e hai bisogno di una versione divertente?</p>
+        <p>▸ Vuoi arrivare perfettamente preparato a un colloquio di lavoro stressante?</p>
+        <p>▸ Stai scrivendo un testo e ti serve una versione divertente?</p>
         <p>▸ Vuoi farti perdonare da qualcuno?</p>
         <p>▸ I tuoi amici sono troppo noiosi?</p>
-        <p class="try-this">Prova questo!</p>
+        <p class="try-this">Provalo!</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -499,11 +499,12 @@
         </svg>
         Accedi con Google
       </button>
+
       <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  Accedendo, accetti i nostri
-  <a href="legal.html#terms" style="color:#c9b99a;">Termini di utilizzo</a> e la nostra
-  <a href="legal.html#privacy" style="color:#c9b99a;">Informativa sulla privacy</a>.
-</p>
+        Accedendo, accetti i nostri
+        <a href="legal.html#terms" style="color:#c9b99a;">Termini di utilizzo</a> e la nostra
+        <a href="legal.html#privacy" style="color:#c9b99a;">Informativa sulla privacy</a>.
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -512,7 +513,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="Parlami della situazione…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="Raccontami la situazione…" autocomplete="off" />
         <button id="btn" onclick="send()">Invia</button>
       </div>
     </div>
@@ -591,7 +592,7 @@
       try {
         await signInWithPopup(auth, new GoogleAuthProvider());
       } catch (err) {
-        console.error("Sign-in error:", err);
+        console.error("Errore di accesso:", err);
       }
     });
 
@@ -601,14 +602,14 @@
         chatArea.innerHTML = "";
         window.__quatschUser = null;
       } catch (err) {
-        console.error("Sign-out error:", err);
+        console.error("Errore di disconnessione:", err);
       }
     });
   </script>
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -645,19 +646,21 @@
 
       try {
         const user = window.__quatschUser;
-        if (!user) throw new Error("Non hai effettuato l'accesso");
+        if (!user) throw new Error("Non connesso");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("Errore del server: " + res.status);
 
