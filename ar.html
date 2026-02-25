@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alberei — آلة الفكاهة المعيارية</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,6 +24,7 @@
       --matrix-green: #00ff41;
       --matrix-green-dim: rgba(0, 255, 65, 0.08);
       --matrix-green-mid: rgba(0, 255, 65, 0.35);
+      --font-arabic: 'Noto Sans Arabic', 'DM Sans', sans-serif;
     }
 
     html, body { height: 100%; }
@@ -31,13 +32,14 @@
     body {
       background: var(--bg);
       color: var(--text-primary);
-      font-family: 'Noto Naskh Arabic', 'DM Sans', sans-serif;
+      font-family: var(--font-arabic);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      direction: rtl;
     }
 
     body::before {
@@ -89,10 +91,11 @@
       letter-spacing: 0.04em;
       color: var(--text-primary);
       line-height: 1;
+      direction: ltr;
     }
 
     header .tagline {
-      font-family: 'Noto Naskh Arabic', sans-serif;
+      font-family: var(--font-arabic);
       font-size: 0.72rem;
       color: var(--text-muted);
       letter-spacing: 0.06em;
@@ -123,10 +126,10 @@
       background: transparent;
       color: var(--text-muted);
       border: 1px solid var(--border);
-      font-family: 'Noto Naskh Arabic', 'DM Sans', sans-serif;
+      font-family: var(--font-arabic);
       font-size: 0.65rem;
       font-weight: 500;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -211,13 +214,20 @@
     }
 
     .matrix-features p {
-      font-family: 'Share Tech Mono', 'Noto Naskh Arabic', monospace;
+      font-family: 'Share Tech Mono', monospace;
       font-size: 0.72rem;
       color: var(--matrix-green);
-      line-height: 1.8;
+      line-height: 1.6;
       text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
       position: relative;
       z-index: 1;
+    }
+
+    .matrix-features p.ar-text {
+      font-family: var(--font-arabic);
+      font-size: 0.78rem;
+      line-height: 1.9;
+      direction: rtl;
     }
 
     .matrix-features p + p {
@@ -228,18 +238,19 @@
       margin-top: 1rem;
       text-align: center;
       font-size: 0.85rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.15em;
     }
 
     .google-sign-in-btn {
       display: flex;
+      flex-direction: row-reverse;
       align-items: center;
       gap: 0.6rem;
       padding: 0.65rem 1.4rem;
       background: var(--surface);
       border: 1px solid var(--border-light);
       color: var(--text-primary);
-      font-family: 'Noto Naskh Arabic', 'DM Sans', sans-serif;
+      font-family: var(--font-arabic);
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -271,14 +282,14 @@
     }
 
     .chat-area:empty::before {
-      content: 'صِف الموقف. واترك الباقي لي.';
+      content: 'صِف الموقف. اترك الباقي لي.';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
       letter-spacing: 0.01em;
       align-self: center;
       margin-top: 30%;
-      font-family: 'Noto Naskh Arabic', 'EB Garamond', serif;
+      font-family: var(--font-arabic);
     }
 
     .chat-area::-webkit-scrollbar { width: 4px; }
@@ -290,7 +301,7 @@
       max-width: 82%;
       padding: 0.7rem 1rem;
       font-size: 0.88rem;
-      line-height: 1.8;
+      line-height: 1.65;
       letter-spacing: 0.005em;
       animation: msgIn 0.35s ease-out;
       position: relative;
@@ -317,9 +328,9 @@
       padding-left: 0;
       border-right: 2px solid var(--accent);
       border-left: none;
-      font-family: 'Noto Naskh Arabic', 'EB Garamond', serif;
+      font-family: var(--font-arabic);
       font-size: 0.96rem;
-      line-height: 1.8;
+      line-height: 1.7;
       white-space: pre-wrap;
     }
 
@@ -341,6 +352,7 @@
 
     .input-row {
       display: flex;
+      flex-direction: row-reverse;
       align-items: center;
       gap: 0;
       border: 1px solid var(--border);
@@ -355,7 +367,7 @@
     input[type="text"] {
       flex: 1;
       padding: 0.85rem 1rem;
-      font-family: 'Noto Naskh Arabic', 'DM Sans', sans-serif;
+      font-family: var(--font-arabic);
       font-size: 0.88rem;
       border: none;
       background: transparent;
@@ -363,6 +375,7 @@
       color: var(--text-primary);
       letter-spacing: 0.01em;
       direction: rtl;
+      text-align: right;
     }
 
     input[type="text"]::placeholder {
@@ -377,10 +390,10 @@
       border: none;
       border-right: 1px solid var(--border);
       border-left: none;
-      font-family: 'Noto Naskh Arabic', 'DM Sans', sans-serif;
+      font-family: var(--font-arabic);
       font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -407,6 +420,7 @@
       animation: spin 0.7s linear infinite;
       vertical-align: middle;
       margin-left: 6px;
+      margin-right: 0;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -431,6 +445,7 @@
       text-transform: uppercase;
       font-weight: 400;
       transition: color 0.2s ease;
+      direction: ltr;
     }
 
     footer a:hover {
@@ -460,6 +475,7 @@
       .user-email { max-width: 100px; }
       .matrix-features { max-width: 100%; }
       .matrix-features p { font-size: 0.65rem; }
+      .matrix-features p.ar-text { font-size: 0.7rem; }
     }
   </style>
 </head>
@@ -485,11 +501,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ هل تودّون الذهاب إلى مقابلة عمل متوترة وأنتم مستعدون تمامًا؟</p>
-        <p>▸ هل تكتبون نصًّا وتحتاجون إلى نسخة مضحكة منه؟</p>
-        <p>▸ هل تريدون أن يسامحكم أحدهم؟</p>
-        <p>▸ هل أصدقاؤكم مملّون للغاية؟</p>
-        <p class="try-this">جرّبوا ذلك!</p>
+        <p class="ar-text">◂ هل تريد الذهاب إلى مقابلة عمل متوترة وأنت مستعد تمامًا؟</p>
+        <p class="ar-text">◂ هل تكتب نصًا وتحتاج نسخة مضحكة منه؟</p>
+        <p class="ar-text">◂ هل تريد أن يسامحك شخص ما؟</p>
+        <p class="ar-text">◂ هل أصدقاؤك مملّون جدًا؟</p>
+        <p class="try-this ar-text">جرّب الآن!</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -499,13 +515,14 @@
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11.96 11.96 0 0 0 1 12c0 1.94.46 3.77 1.18 5.07l3.66-2.98z" fill="#FBBC05"/>
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
-        تسجيل الدخول عبر Google
+        تسجيل الدخول بحساب Google
       </button>
-      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;" dir="rtl">
-  بتسجيل الدخول، فإنك توافق على
-  <a href="legal.html#terms" style="color:#c9b99a;">شروط الاستخدام</a> و
-  <a href="legal.html#privacy" style="color:#c9b99a;">سياسة الخصوصية</a>.
-</p>
+
+      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0; font-family: 'Noto Sans Arabic', sans-serif;">
+        بتسجيل الدخول، فإنك توافق على
+        <a href="legal.html#terms" style="color:#c9b99a;">شروط الاستخدام</a> و
+        <a href="legal.html#privacy" style="color:#c9b99a;">سياسة الخصوصية</a> الخاصة بنا.
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -514,7 +531,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="صِفوا لي الموقف…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="أخبرني عن الموقف…" autocomplete="off" />
         <button id="btn" onclick="send()">إرسال</button>
       </div>
     </div>
@@ -610,7 +627,7 @@
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -641,7 +658,7 @@
 
       isSending = true;
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>انتظروا';
+      btn.innerHTML = '<span class="spinner"></span>انتظر';
 
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
@@ -649,17 +666,19 @@
         const user = window.__quatschUser;
         if (!user) throw new Error("لم يتم تسجيل الدخول");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("خطأ في الخادم: " + res.status);
 
