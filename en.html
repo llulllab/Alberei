@@ -648,17 +648,19 @@
         const user = window.__quatschUser;
         if (!user) throw new Error("Not signed in");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("Server error: " + res.status);
 
