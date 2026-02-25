@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="hi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alberei — मॉड्यूलर हास्य मशीन</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <title>Alberei — मॉड्यूलर ह्यूमर मशीन</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,6 +24,7 @@
       --matrix-green: #00ff41;
       --matrix-green-dim: rgba(0, 255, 65, 0.08);
       --matrix-green-mid: rgba(0, 255, 65, 0.35);
+      --font-hindi: 'Noto Sans Devanagari', 'DM Sans', sans-serif;
     }
 
     html, body { height: 100%; }
@@ -31,7 +32,7 @@
     body {
       background: var(--bg);
       color: var(--text-primary);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-hindi);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,6 +93,7 @@
     }
 
     header .tagline {
+      font-family: var(--font-hindi);
       font-size: 0.72rem;
       color: var(--text-muted);
       letter-spacing: 0.14em;
@@ -122,7 +124,7 @@
       background: transparent;
       color: var(--text-muted);
       border: 1px solid var(--border);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-hindi);
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.12em;
@@ -220,6 +222,12 @@
       z-index: 1;
     }
 
+    .matrix-features p.hindi-text {
+      font-family: var(--font-hindi);
+      font-size: 0.75rem;
+      line-height: 1.8;
+    }
+
     .matrix-features p + p {
       margin-top: 0.35rem;
     }
@@ -240,7 +248,7 @@
       background: var(--surface);
       border: 1px solid var(--border-light);
       color: var(--text-primary);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-hindi);
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -272,14 +280,14 @@
     }
 
     .chat-area:empty::before {
-      content: 'परिस्थिति का वर्णन करें। बाकी मुझ पर छोड़ दें।';
+      content: 'स्थिति बताओ। बाकी मुझ पर छोड़ दो।';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
       letter-spacing: 0.01em;
       align-self: center;
       margin-top: 30%;
-      font-family: 'EB Garamond', serif;
+      font-family: var(--font-hindi);
     }
 
     .chat-area::-webkit-scrollbar { width: 4px; }
@@ -316,7 +324,7 @@
       color: var(--text-secondary);
       padding-left: 1rem;
       border-left: 2px solid var(--accent);
-      font-family: 'EB Garamond', serif;
+      font-family: var(--font-hindi);
       font-size: 0.96rem;
       line-height: 1.7;
       white-space: pre-wrap;
@@ -354,7 +362,7 @@
     input[type="text"] {
       flex: 1;
       padding: 0.85rem 1rem;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-hindi);
       font-size: 0.88rem;
       border: none;
       background: transparent;
@@ -374,7 +382,7 @@
       color: var(--accent);
       border: none;
       border-left: 1px solid var(--border);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-hindi);
       font-size: 0.72rem;
       font-weight: 500;
       letter-spacing: 0.16em;
@@ -458,6 +466,7 @@
       .user-email { max-width: 100px; }
       .matrix-features { max-width: 100%; }
       .matrix-features p { font-size: 0.65rem; }
+      .matrix-features p.hindi-text { font-size: 0.68rem; }
     }
   </style>
 </head>
@@ -466,11 +475,11 @@
     <header>
       <div class="brand">
         <h1>Alberei</h1>
-        <span class="tagline">मॉड्यूलर हास्य मशीन</span>
+        <span class="tagline">मॉड्यूलर ह्यूमर मशीन</span>
       </div>
       <div class="auth-controls">
         <span class="user-email hidden" id="userEmail"></span>
-        <button class="auth-btn hidden" id="signOutBtn">साइन आउट</button>
+        <button class="auth-btn hidden" id="signOutBtn">लॉग आउट</button>
       </div>
     </header>
 
@@ -483,11 +492,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ क्या आप एक तनावपूर्ण साक्षात्कार के लिए पूरी तरह तैयार होना चाहते हैं?</p>
-        <p>▸ क्या आप एक पाठ लिख रहे हैं और उसकी मजेदार संस्करण चाहते हैं?</p>
-        <p>▸ क्या आप चाहते हैं कि कोई आपको माफ कर दे?</p>
-        <p>▸ क्या आपके दोस्त बहुत उबाऊ हैं?</p>
-        <p class="try-this">इसे आज़माएँ!</p>
+        <p class="hindi-text">▸ क्या तुम एक तनावपूर्ण जॉब इंटरव्यू में पूरी तैयारी के साथ जाना चाहते हो?</p>
+        <p class="hindi-text">▸ क्या तुम कोई टेक्स्ट लिख रहे हो और उसका एक मज़ेदार वर्शन चाहिए?</p>
+        <p class="hindi-text">▸ क्या तुम चाहते हो कि कोई तुम्हें माफ़ कर दे?</p>
+        <p class="hindi-text">▸ क्या तुम्हारे दोस्त बहुत बोरिंग हैं?</p>
+        <p class="try-this hindi-text">आज़माकर देखो!</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -499,11 +508,12 @@
         </svg>
         Google से साइन इन करें
       </button>
-      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  साइन इन करके आप हमारी
-  <a href="legal.html#terms" style="color:#c9b99a;">उपयोग की शर्तें</a> और
-  <a href="legal.html#privacy" style="color:#c9b99a;">गोपनीयता नीति</a> से सहमत होते हैं।
-</p>
+
+      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0; font-family: 'Noto Sans Devanagari', sans-serif;">
+        साइन इन करके, आप हमारी
+        <a href="legal.html#terms" style="color:#c9b99a;">उपयोग की शर्तों</a> और
+        <a href="legal.html#privacy" style="color:#c9b99a;">गोपनीयता नीति</a> से सहमत होते हैं।
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -512,7 +522,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="मुझे स्थिति के बारे में बताएं…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="मुझे स्थिति बताओ…" autocomplete="off" />
         <button id="btn" onclick="send()">भेजें</button>
       </div>
     </div>
@@ -601,14 +611,14 @@
         chatArea.innerHTML = "";
         window.__quatschUser = null;
       } catch (err) {
-        console.error("साइन आउट त्रुटि:", err);
+        console.error("लॉग आउट त्रुटि:", err);
       }
     });
   </script>
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -639,7 +649,7 @@
 
       isSending = true;
       btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>रुकिए';
+      btn.innerHTML = '<span class="spinner"></span>रुकें';
 
       const loader = addMessage("\u2026", "bot", ["loading"]);
 
@@ -647,17 +657,19 @@
         const user = window.__quatschUser;
         if (!user) throw new Error("साइन इन नहीं हैं");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
+
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
 
         if (!res.ok) throw new Error("सर्वर त्रुटि: " + res.status);
 
@@ -683,7 +695,7 @@
         loader.classList.remove("loading");
 
       } catch (err) {
-        loader.textContent = "एक त्रुटि हुई है: " + err.message;
+        loader.textContent = "एक त्रुटि हुई: " + err.message;
         loader.classList.remove("loading");
         loader.classList.add("error");
       } finally {
