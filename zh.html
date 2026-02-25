@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alberei — 模块化幽默机器</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,6 +24,7 @@
       --matrix-green: #00ff41;
       --matrix-green-dim: rgba(0, 255, 65, 0.08);
       --matrix-green-mid: rgba(0, 255, 65, 0.35);
+      --font-chinese: 'Noto Sans SC', 'DM Sans', sans-serif;
     }
 
     html, body { height: 100%; }
@@ -31,7 +32,7 @@
     body {
       background: var(--bg);
       color: var(--text-primary);
-      font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+      font-family: var(--font-chinese);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,10 +93,10 @@
     }
 
     header .tagline {
-      font-family: 'Noto Sans SC', sans-serif;
+      font-family: var(--font-chinese);
       font-size: 0.72rem;
       color: var(--text-muted);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.14em;
       font-weight: 400;
     }
 
@@ -122,10 +123,10 @@
       background: transparent;
       color: var(--text-muted);
       border: 1px solid var(--border);
-      font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+      font-family: var(--font-chinese);
       font-size: 0.65rem;
       font-weight: 500;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.12em;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -210,13 +211,19 @@
     }
 
     .matrix-features p {
-      font-family: 'Share Tech Mono', 'Noto Sans SC', monospace;
+      font-family: 'Share Tech Mono', monospace;
       font-size: 0.72rem;
       color: var(--matrix-green);
-      line-height: 1.8;
+      line-height: 1.6;
       text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
       position: relative;
       z-index: 1;
+    }
+
+    .matrix-features p.cn-text {
+      font-family: var(--font-chinese);
+      font-size: 0.75rem;
+      line-height: 1.8;
     }
 
     .matrix-features p + p {
@@ -227,7 +234,7 @@
       margin-top: 1rem;
       text-align: center;
       font-size: 0.85rem;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.15em;
     }
 
     .google-sign-in-btn {
@@ -238,7 +245,7 @@
       background: var(--surface);
       border: 1px solid var(--border-light);
       color: var(--text-primary);
-      font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+      font-family: var(--font-chinese);
       font-size: 0.8rem;
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -270,14 +277,14 @@
     }
 
     .chat-area:empty::before {
-      content: '请描述情况，剩下的交给我。';
+      content: '描述一下情况，剩下的交给我。';
       color: var(--text-muted);
       font-size: 0.82rem;
       font-style: italic;
       letter-spacing: 0.01em;
       align-self: center;
       margin-top: 30%;
-      font-family: 'Noto Sans SC', 'EB Garamond', serif;
+      font-family: var(--font-chinese);
     }
 
     .chat-area::-webkit-scrollbar { width: 4px; }
@@ -289,7 +296,7 @@
       max-width: 82%;
       padding: 0.7rem 1rem;
       font-size: 0.88rem;
-      line-height: 1.8;
+      line-height: 1.65;
       letter-spacing: 0.005em;
       animation: msgIn 0.35s ease-out;
       position: relative;
@@ -314,9 +321,9 @@
       color: var(--text-secondary);
       padding-left: 1rem;
       border-left: 2px solid var(--accent);
-      font-family: 'Noto Sans SC', 'EB Garamond', serif;
+      font-family: var(--font-chinese);
       font-size: 0.96rem;
-      line-height: 1.8;
+      line-height: 1.7;
       white-space: pre-wrap;
     }
 
@@ -352,7 +359,7 @@
     input[type="text"] {
       flex: 1;
       padding: 0.85rem 1rem;
-      font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+      font-family: var(--font-chinese);
       font-size: 0.88rem;
       border: none;
       background: transparent;
@@ -372,10 +379,10 @@
       color: var(--accent);
       border: none;
       border-left: 1px solid var(--border);
-      font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+      font-family: var(--font-chinese);
       font-size: 0.72rem;
       font-weight: 500;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.16em;
       cursor: pointer;
       transition: all 0.2s ease;
       white-space: nowrap;
@@ -455,6 +462,7 @@
       .user-email { max-width: 100px; }
       .matrix-features { max-width: 100%; }
       .matrix-features p { font-size: 0.65rem; }
+      .matrix-features p.cn-text { font-size: 0.68rem; }
     }
   </style>
 </head>
@@ -480,11 +488,11 @@
       </div>
 
 <div class="matrix-features">
-        <p>▸ 您想为一场紧张的求职面试做好充分准备吗？</p>
-        <p>▸ 您正在写一段文字，需要一个有趣的版本吗？</p>
-        <p>▸ 您想让某人原谅您吗？</p>
-        <p>▸ 您的朋友太无聊了吗？</p>
-        <p class="try-this">试试看！</p>
+        <p class="cn-text">▸ 你想做好充分准备去参加一场紧张的工作面试吗？</p>
+        <p class="cn-text">▸ 你正在写一段文字，需要一个搞笑的版本吗？</p>
+        <p class="cn-text">▸ 你想让某个人原谅你吗？</p>
+        <p class="cn-text">▸ 你的朋友们太无聊了吗？</p>
+        <p class="try-this cn-text">试试看！</p>
       </div>
 
       <button class="google-sign-in-btn" id="googleSignInBtn">
@@ -496,11 +504,12 @@
         </svg>
         使用 Google 登录
       </button>
-      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
-  登录即表示您同意我们的
-  <a href="legal.html#terms" style="color:#c9b99a;">使用条款</a>和
-  <a href="legal.html#privacy" style="color:#c9b99a;">隐私政策</a>。
-</p>
+
+      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0; font-family: 'Noto Sans SC', sans-serif;">
+        登录即表示您同意我们的
+        <a href="legal.html#terms" style="color:#c9b99a;">使用条款</a>和
+        <a href="legal.html#privacy" style="color:#c9b99a;">隐私政策</a>。
+      </p>
     </div>
 
     <!-- Chat: shown when signed in -->
@@ -509,7 +518,7 @@
     <div class="input-area hidden" id="inputArea">
       <div class="divider" style="margin-bottom: 0.8rem;"></div>
       <div class="input-row">
-        <input type="text" id="msg" placeholder="请告诉我具体情况…" autocomplete="off" />
+        <input type="text" id="msg" placeholder="告诉我是什么情况…" autocomplete="off" />
         <button id="btn" onclick="send()">发送</button>
       </div>
     </div>
@@ -588,7 +597,7 @@
       try {
         await signInWithPopup(auth, new GoogleAuthProvider());
       } catch (err) {
-        console.error("登录错误：", err);
+        console.error("登录错误:", err);
       }
     });
 
@@ -598,14 +607,14 @@
         chatArea.innerHTML = "";
         window.__quatschUser = null;
       } catch (err) {
-        console.error("退出错误：", err);
+        console.error("退出错误:", err);
       }
     });
   </script>
 
   <!-- Chat logic -->
   <script>
-    const WEBHOOK = "https://n8n.tropus.io/webhook/humor";
+    const WEBHOOK = "https://alberei-proxy.firatilim.workers.dev";
     const chat    = document.getElementById("chat");
     const input   = document.getElementById("msg");
     const btn     = document.getElementById("btn");
@@ -642,21 +651,23 @@
 
       try {
         const user = window.__quatschUser;
-        if (!user) throw new Error("尚未登录");
+        if (!user) throw new Error("未登录");
 
-        const res = await fetch(WEBHOOK, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "studio-llull-secret-123"
-          },
-          body: JSON.stringify({
-            input: message,
-            sessionId: user.uid
-          })
-        });
+       const token = await user.getIdToken();
 
-        if (!res.ok) throw new Error("服务器错误：" + res.status);
+const res = await fetch(WEBHOOK, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    input: message,
+    sessionId: user.uid
+  })
+});
+
+        if (!res.ok) throw new Error("服务器错误: " + res.status);
 
         const raw = await res.text();
         let reply;
@@ -680,7 +691,7 @@
         loader.classList.remove("loading");
 
       } catch (err) {
-        loader.textContent = "发生错误：" + err.message;
+        loader.textContent = "发生错误: " + err.message;
         loader.classList.remove("loading");
         loader.classList.add("error");
       } finally {
