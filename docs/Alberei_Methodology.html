@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alberei · Methodology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_print_styles.css">
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <div class="cover-strip">
+    <span><strong>LLULL LAB</strong> · STUDIO LLULL · PARIS</span>
+    <span>Document 02 · v1.0</span>
+  </div>
+  <div class="cover-body">
+    <div class="cover-tag">Alberei · Document 02</div>
+    <h1 class="cover-title"><span class="h">Methodology.</span></h1>
+    <p class="cover-subtitle">How Alberei structures the problem of humour generation. Register, structure, cultural frame.</p>
+    <dl class="cover-meta">
+      <div><dt>Audience</dt><dd>Product, research</dd></div>
+      <div><dt>Version</dt><dd>1.0</dd></div>
+      <div><dt>Issued</dt><dd>May 2026</dd></div>
+    </dl>
+  </div>
+  <div class="cover-footer">
+    <span>alberei.de · api.llulllab.com</span>
+    <span>api@alberei.de</span>
+  </div>
+</section>
+
+<div class="body">
+
+<section>
+  <div class="sec-label">01 · Premise</div>
+  <h1 class="sec-title">Humour is combinatorial, not a sentiment.</h1>
+  <p>Most computational treatments of humour either rate a candidate string (a classifier judges "funny") or pattern-match a joke template (setup, punchline, swap). Alberei does neither. The engine treats humour as a combinatorial problem across three orthogonal axes: a register that fixes voice, a structure that fixes mechanism, and a cultural frame that fixes what counts as funny.</p>
+  <p>The integrator picks the first. The engine selects the second and third, per language, per call. This separation is the entire methodology. Everything else is implementation.</p>
+</section>
+
+<section>
+  <div class="sec-label">02 · Register</div>
+  <h1 class="sec-title">The voice the joke is told in.</h1>
+  <p>Register is the persona axis. v1 ships four named registers, locked. Each is a stable stance toward the listener and the situation.</p>
+  <table>
+    <thead><tr><th>Register</th><th>Stance</th><th>Where it fits</th></tr></thead>
+    <tbody>
+      <tr><td><code>wry</code></td><td>Dry, ironic, self-aware. The speaker knows the joke is a joke.</td><td>Productivity assistants, journaling tools, witty NPCs</td></tr>
+      <tr><td><code>absurd</code></td><td>Surreal, logic-breaking. The frame itself slips.</td><td>Creative tools, art-making companions, late-night chatbots</td></tr>
+      <tr><td><code>deadpan</code></td><td>Flat, affect-less. No flag that humour is happening.</td><td>Voice assistants where over-acting reads as fake</td></tr>
+      <tr><td><code>warm</code></td><td>Affectionate, inclusive. Humour as a way of caring.</td><td>Wellbeing companions, child-facing products, eldercare</td></tr>
+    </tbody>
+  </table>
+  <p>Register is a product decision, made once. Switching register mid-session breaks the user's sense of persona; the engine will obey the request but the integration will degrade in feel.</p>
+</section>
+
+<section>
+  <div class="sec-label">03 · Structure</div>
+  <h1 class="sec-title">The mechanism by which an item lands.</h1>
+  <p>Structure is the mechanic. The engine selects it; the response surfaces it in <code>items[].structure</code> so an editor or analytics layer can see what worked.</p>
+  <p>The public taxonomy, stable across v1:</p>
+  <ul>
+    <li><code>misdirection</code>. The second clause reframes the first. "I was on time once. It was an accident."</li>
+    <li><code>literal-overshoot</code>. A metaphor taken too far on purpose. "I am running on fumes, dust, and the memory of fumes."</li>
+    <li><code>self-deprecation</code>. The speaker is the target. "Thinking is slower than pretending."</li>
+    <li><code>juxtaposition</code>. Incongruous pairing in one frame. "A philosopher and a vending machine walk into a hallway."</li>
+    <li><code>anticlimax</code>. Promised escalation, delivered deflation. "I have considered every option. Three of them. Briefly."</li>
+    <li><code>escalation</code>. Momentum carried past sense. "I will fix it. And the bug behind it. And the bug behind that one. And the architecture."</li>
+    <li><code>deflation</code>. The expected payoff withheld. "I had a great line for this and I forgot it."</li>
+    <li><code>surreal-shift</code>. Local logic broken without warning. "Tuesday again, of course. The Tuesdays are stacking."</li>
+    <li><code>deadpan-statement</code>. No flag that humour is happening. "Yes."</li>
+    <li><code>warm-twist</code>. Kindness reframes apparent slight. "You are slow today. That means today is yours, not the clock's."</li>
+  </ul>
+  <p>The list is additive across the v1 minor releases. Removals require a v2 contract.</p>
+</section>
+
+<section>
+  <div class="sec-label">04 · Cultural frame</div>
+  <h1 class="sec-title">Twelve languages, twelve framings.</h1>
+  <p>Humour is culturally embedded. A joke translated word-for-word is rarely a joke in the target culture. Alberei generates natively in each of its 12 supported languages, with framing chosen per language. Cultural frames are not exposed as parameters; they are part of the selection the engine makes once <code>lang</code> is set.</p>
+  <p>Concretely, this means:</p>
+  <ul>
+    <li>Japanese <code>deadpan</code> is not English <code>deadpan</code> with a kana surface. The pacing, the topic distribution, the comfort with silence are different.</li>
+    <li>Turkish <code>wry</code> draws from a different stock of idioms and references than French <code>wry</code>.</li>
+    <li>Arabic and Bengali <code>warm</code> sit closer to family register than English <code>warm</code> typically does.</li>
+  </ul>
+  <p>The integrator does not need to know these distinctions to use the API. The integrator does need to commit not to round-trip generated humour through a translator. Alberei in English, translated to Japanese, is not Alberei in Japanese.</p>
+</section>
+
+<section>
+  <div class="sec-label">05 · The safety layer</div>
+  <h1 class="sec-title">Refusal is the engine's quietest output.</h1>
+  <p>Humour can punch down. The safety layer rejects contexts that include:</p>
+  <ul>
+    <li>Hate-speech targets (groups defined by protected characteristics)</li>
+    <li>Sexual content involving minors</li>
+    <li>Impersonation of identifiable living individuals</li>
+    <li>Instructions to deceive the listener about the bot's non-human nature</li>
+  </ul>
+  <p>Refusal returns <code>HTTP 422</code> with a neutral body. The engine does not disclose which clause triggered, which category was matched, or how close the boundary was. This is deliberate: a transparent filter is a filter that can be probed and gamed. The boundary itself is the audit surface, not the rationale.</p>
+  <p>From an integration standpoint, a 422 is treated as "skip humour for this turn." Do not surface it to the end user as a moderation message. The user did not ask for a moderation conversation; they asked for a product to behave well.</p>
+</section>
+
+<section>
+  <div class="sec-label">06 · What Alberei does not do</div>
+  <h1 class="sec-title">Boundary, on purpose.</h1>
+  <p>The methodology is narrow on purpose. Alberei is not:</p>
+  <ul>
+    <li><strong>A comedian.</strong> The engine produces items in the millisecond, not performances.</li>
+    <li><strong>A persuasion tool.</strong> Political satire and rhetoric-shaped humour are explicitly out of scope and refused.</li>
+    <li><strong>A meme generator.</strong> Image humour is a different domain; this is text-only in v1.</li>
+    <li><strong>A therapy tool.</strong> Even in <code>warm</code>, the items are humour, not clinical support.</li>
+  </ul>
+  <p>The narrowness is what makes the API integrable. A product that does one thing well composes; a product that tries to be everything composes with nothing.</p>
+</section>
+
+<section>
+  <div class="sec-label">07 · Versioning of the methodology</div>
+  <h1 class="sec-title">What changes, what does not.</h1>
+  <p>Locked across v1:</p>
+  <ul>
+    <li>Register set (four names: wry, absurd, deadpan, warm)</li>
+    <li>Language set (twelve, listed in the API reference)</li>
+    <li>Structure taxonomy (ten names, additive only within v1)</li>
+    <li>Endpoint shape and field names</li>
+    <li>Status code semantics</li>
+  </ul>
+  <p>Subject to change in v1.x minor releases:</p>
+  <ul>
+    <li>Quality of generation within a given register and language</li>
+    <li>Internal selection logic for structure and cultural frame</li>
+    <li>Latency and burst behaviour</li>
+    <li>Safety layer thresholds</li>
+  </ul>
+  <p>v2 will be a new path (<code>/alberei/v2/</code>). v1 will be supported for a documented overlap period.</p>
+</section>
+
+</div>
+</div>
+</body>
+</html>

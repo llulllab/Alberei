@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alberei · Use Cases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_print_styles.css">
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <div class="cover-strip">
+    <span><strong>LLULL LAB</strong> · STUDIO LLULL · PARIS</span>
+    <span>Document 03 · v1.0</span>
+  </div>
+  <div class="cover-body">
+    <div class="cover-tag">Alberei · Document 03</div>
+    <h1 class="cover-title"><span class="h">Use Cases.</span></h1>
+    <p class="cover-subtitle">Five product shapes worked through end to end. Pick the one closest to yours and copy the pattern.</p>
+    <dl class="cover-meta">
+      <div><dt>Audience</dt><dd>Product, engineering</dd></div>
+      <div><dt>Version</dt><dd>1.0</dd></div>
+      <div><dt>Issued</dt><dd>May 2026</dd></div>
+    </dl>
+  </div>
+  <div class="cover-footer">
+    <span>alberei.de · api.llulllab.com</span>
+    <span>api@alberei.de</span>
+  </div>
+</section>
+
+<div class="body">
+
+<section>
+  <div class="sec-label">01 · Embodied agents and social robots</div>
+  <h1 class="sec-title">A humour module for the conversational loop.</h1>
+  <p>Robots that talk earn their place in a home by knowing when to be quiet, when to be useful, and occasionally when to be funny. The third is the hardest, and the one most often left out. Alberei is the module a robot calls when the conversational context invites colour: a routine apology, an idle minute, an answer to a small-talk cue.</p>
+
+  <h3>Configuration</h3>
+  <dl class="kv-table">
+    <dt>Register</dt><dd><code>warm</code> for companion robots; <code>deadpan</code> for task robots</dd>
+    <dt>Length</dt><dd><code>short</code> (spoken delivery)</dd>
+    <dt>Count</dt><dd>2 (server picks, discards the other)</dd>
+    <dt>When to call</dt><dd>Small-talk classifier, silence over 1500 ms, recurring apology event</dd>
+    <dt>When not to call</dt><dd>Safety-critical instructions, emergency, explicit user complaint</dd>
+  </dl>
+
+  <h3>Pseudo-pattern</h3>
+<pre><code>on_idle_or_smalltalk(ctx):
+  if ctx.user_signal == 'small_talk' or ctx.silence_ms > 1500:
+    items = alberei.generate(
+      lang=ctx.lang, context=ctx.summary(),
+      register='warm', length='short', count=2)
+    speak(items[0].text)
+    log(ctx.session_id, items[0].id, items[0].structure)</code></pre>
+
+  <div class="callout">
+    <strong>Inaugural pilot.</strong> Phi-Yo Embodied, Llull Lab's wellbeing companion robot, ships with Alberei as its humour module. Register <code>warm</code>, length <code>short</code>, per-session humour cap to keep the effect scarce and intentional.
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">02 · Voice assistants and smart speakers</div>
+  <h1 class="sec-title">Wit inside the synthesis budget.</h1>
+  <p>Voice assistants have a hard latency budget: from end of user speech to start of agent speech, under one second feels alive, under two feels acceptable, over two feels broken. Alberei generation must finish inside the assistant's TTS preparation window.</p>
+
+  <h3>Configuration</h3>
+  <dl class="kv-table">
+    <dt>Register</dt><dd>Persona-locked at product setup. <code>warm</code> or <code>deadpan</code> read most naturally over speech.</dd>
+    <dt>Length</dt><dd><code>short</code> always</dd>
+    <dt>Count</dt><dd>1 to 2; surfaces are auditory and brief</dd>
+    <dt>Timeout</dt><dd>800 ms; fall through to non-humorous reply on miss</dd>
+    <dt>Audience</dt><dd>Per-household tag, no PII; useful for retrospective register tuning</dd>
+  </dl>
+
+  <h3>Edge</h3>
+  <p>The classifier for "this turn invites humour" is the engineering challenge, not the API call. Over-trigger and the assistant becomes a stand-up act. Under-trigger and the integration is invisible. Start strict, loosen with usage data.</p>
+</section>
+
+<section>
+  <div class="sec-label">03 · Customer-service chatbots</div>
+  <h1 class="sec-title">Humour as a softener, used sparingly.</h1>
+  <p>A humour line in a refund-pending flow derails trust. A humour line in a "your delivery is delayed by twenty minutes" message softens a wait. The decision is not whether the bot can be funny; it is whether this specific turn is one where humour helps.</p>
+
+  <h3>Configuration</h3>
+  <dl class="kv-table">
+    <dt>Register</dt><dd><code>warm</code> in all cases. Customer service is not the place for <code>wry</code>.</dd>
+    <dt>Length</dt><dd><code>short</code></dd>
+    <dt>Count</dt><dd>1; the bot speaks, the user does not pick</dd>
+    <dt>Gating</dt><dd>Per-turn classifier with explicit allow-list of flow types</dd>
+    <dt>Refusal handling</dt><dd>On 422, send the non-humorous version of the message</dd>
+  </dl>
+
+  <h3>Suggested allow-list</h3>
+  <ul>
+    <li>Delivery delay (under one hour)</li>
+    <li>Service-status all-clear after an incident</li>
+    <li>Greeting in the first message of a session</li>
+    <li>Goodbye in a successful session</li>
+  </ul>
+
+  <h3>Suggested deny-list</h3>
+  <ul>
+    <li>Any refund, payment, or billing flow</li>
+    <li>Any complaint or escalation</li>
+    <li>Any session involving an account-security topic</li>
+    <li>Any session flagged as a vulnerable user</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-label">04 · Game NPC dialogue</div>
+  <h1 class="sec-title">Pre-generate at content time, sample at runtime.</h1>
+  <p>Game design budgets are about quota efficiency. The hot path is the player turn; the API call cannot live there. Pre-generation at content-build time lets the runtime sample without calling Alberei at all.</p>
+
+  <h3>Configuration</h3>
+  <dl class="kv-table">
+    <dt>Register</dt><dd>Per-NPC. Use the NPC's voice document to lock the choice.</dd>
+    <dt>Length</dt><dd>Per-beat, usually <code>short</code></dd>
+    <dt>Count</dt><dd>5 (the maximum); cache all five</dd>
+    <dt>Cache key</dt><dd><code>(lang, npc_id, register, beat_id)</code></dd>
+    <dt>Refresh</dt><dd>On content update, on player feedback metrics drop</dd>
+  </dl>
+
+  <h3>Build-time pseudo-pattern</h3>
+<pre><code>for npc in cast:
+  for beat in npc.beats:
+    for lang in supported_languages:
+      items = alberei.generate(
+        lang=lang, context=beat.context,
+        register=npc.register, length='short', count=5)
+      cache.put((lang, npc.id, npc.register, beat.id), items)</code></pre>
+
+  <p>Runtime sampling is free. The quota cost is bounded by the size of the content surface, not by the number of players or hours played.</p>
+</section>
+
+<section>
+  <div class="sec-label">05 · Writing assistants and content tools</div>
+  <h1 class="sec-title">Suggestions the author chooses from.</h1>
+  <p>Writing tools have an author in the loop. The author wants options, sees them, picks one. The integration is the most generous of the five: show all items, surface the structure tag, let the author ask for a different mechanism.</p>
+
+  <h3>Configuration</h3>
+  <dl class="kv-table">
+    <dt>Register</dt><dd>User-selectable; default to the document's prevailing register</dd>
+    <dt>Length</dt><dd>User-selectable; default <code>medium</code></dd>
+    <dt>Count</dt><dd>3 to 5</dd>
+    <dt>UI</dt><dd>Sidebar list; each item shows the structure tag and a "regenerate with different mechanism" action</dd>
+    <dt>Telemetry</dt><dd>Track which structures the author picks; surface back as register-tuning hints</dd>
+  </dl>
+
+  <h3>Suggested UI copy</h3>
+  <ul>
+    <li><strong>Add humour</strong>: primary action on the selected paragraph</li>
+    <li><strong>Tone</strong>: dropdown with the four registers, plain English labels</li>
+    <li><strong>Why this works</strong>: hover reveals the structure tag in plain language</li>
+    <li><strong>Regenerate</strong>: requests a different structure for the same context</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-label">06 · A few patterns to avoid</div>
+  <h1 class="sec-title">Common mistakes, across product shapes.</h1>
+  <ul>
+    <li><strong>Calling on every turn.</strong> The user habituates within minutes.</li>
+    <li><strong>Mixing registers in a session.</strong> The user cannot name what is wrong, but it is wrong.</li>
+    <li><strong>Caching per user-facing utterance.</strong> The second time a line lands, it loses.</li>
+    <li><strong>Showing a refusal as a moderation banner.</strong> The product looks anxious. Skip silently.</li>
+    <li><strong>Translating output between languages.</strong> Generate native, every time, for every language you support.</li>
+    <li><strong>Tying register switches to user mood signals.</strong> Persona instability erodes trust faster than the right register provides delight.</li>
+  </ul>
+</section>
+
+</div>
+</div>
+</body>
+</html>

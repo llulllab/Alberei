@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alberei · Integration Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_print_styles.css">
+</head>
+<body>
+<div class="page">
+
+<section class="cover">
+  <div class="cover-strip">
+    <span><strong>LLULL LAB</strong> · STUDIO LLULL · PARIS</span>
+    <span>Document 01 · v1.0</span>
+  </div>
+  <div class="cover-body">
+    <div class="cover-tag">Alberei · Document 01</div>
+    <h1 class="cover-title"><span class="h">Integration Guide.</span></h1>
+    <p class="cover-subtitle">Everything an engineer needs to ship Alberei into a product. Read this first.</p>
+    <dl class="cover-meta">
+      <div><dt>Audience</dt><dd>Engineers, integrators</dd></div>
+      <div><dt>Version</dt><dd>1.0</dd></div>
+      <div><dt>Issued</dt><dd>May 2026</dd></div>
+    </dl>
+  </div>
+  <div class="cover-footer">
+    <span>alberei.de · api.llulllab.com</span>
+    <span>api@alberei.de</span>
+  </div>
+</section>
+
+<div class="body">
+
+<section>
+  <div class="sec-label">01 · The shape of the integration</div>
+  <h1 class="sec-title">One endpoint, one token.</h1>
+  <p>Alberei is a REST surface over HTTPS. There is one core endpoint: <code>POST /alberei/v1/generate</code>. You send a context, a language, and a register. You get back items. There is no SDK to install, no persistent connection to maintain, no client state to manage. A correct integration is twenty lines of code.</p>
+  <p>The full reference, including all status codes and rate-limit headers, is at <code>alberei.de/api</code>. This guide covers what that reference does not: the decisions you make once and never revisit.</p>
+</section>
+
+<section>
+  <div class="sec-label">02 · Getting a token</div>
+  <h1 class="sec-title">Access is gated.</h1>
+  <p>Tokens are issued through an invite flow. The fastest path is the access request form at <code>alberei.de/api#signup</code> or an email to <code>api@alberei.de</code>. Include:</p>
+  <ul>
+    <li>Your organisation and contact</li>
+    <li>The product Alberei will live inside, in one sentence</li>
+    <li>Your expected monthly call volume</li>
+    <li>The tier you have in mind</li>
+  </ul>
+  <p>Turnaround is typically under two working days. The token arrives by email. Treat it as a secret: store it in your secret manager, inject it as an environment variable, never commit it.</p>
+
+  <div class="callout">
+    <strong>Token format.</strong> Tokens are opaque strings prefixed with <code>alb_tok_</code>. Length is stable. They are scoped to a single tier; if you upgrade, a new token is issued and the old one continues to work for thirty days.
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">03 · The smallest correct call</div>
+  <h1 class="sec-title">JavaScript, Python, curl.</h1>
+
+  <h3>JavaScript (Node 18 and later, or browser with the right CORS origin)</h3>
+<pre><code>const r = await fetch('https://api.llulllab.com/alberei/v1/generate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Api-Token': process.env.ALBEREI_TOKEN
+  },
+  body: JSON.stringify({
+    lang: 'en',
+    context: 'a robot apologising for being late',
+    count: 3,
+    register: 'warm'
+  })
+});
+if (!r.ok) throw new Error(`Alberei ${r.status}`);
+const { items } = await r.json();
+const choice = items[Math.floor(Math.random() * items.length)];
+console.log(choice.text, '(', choice.structure, ')');</code></pre>
+
+  <h3>Python (requests)</h3>
+<pre><code>import os, requests
+r = requests.post(
+  'https://api.llulllab.com/alberei/v1/generate',
+  headers={'X-Api-Token': os.environ['ALBEREI_TOKEN'],
+           'Content-Type': 'application/json'},
+  json={'lang': 'en', 'context': context,
+        'count': 3, 'register': 'wry'},
+  timeout=10
+)
+r.raise_for_status()
+items = r.json()['items']</code></pre>
+
+  <h3>curl</h3>
+<pre><code>curl -X POST https://api.llulllab.com/alberei/v1/generate \
+  -H "Content-Type: application/json" \
+  -H "X-Api-Token: $ALBEREI_TOKEN" \
+  -d '{"lang":"en","context":"...","count":3,"register":"wry"}'</code></pre>
+</section>
+
+<section>
+  <div class="sec-label">04 · Decisions to make once</div>
+  <h1 class="sec-title">Configure, then forget.</h1>
+
+  <h3>Pick a register and stay there</h3>
+  <p>Register is a product decision, not a per-call lever. A wellbeing companion stays in <code>warm</code>. A productivity assistant with attitude stays in <code>wry</code>. Switching register inside a session breaks the user's sense of persona. Pick one. Document it. Move on.</p>
+
+  <h3>Pick a length</h3>
+  <p>Spoken delivery: <code>short</code>. Written delivery with screen real estate: <code>medium</code>. Both are caps, not targets; you may get something shorter.</p>
+
+  <h3>Decide how many items to ask for</h3>
+  <p>If you display all items (a writing tool, a designer's mood board): <code>count: 3</code> to <code>5</code>. If you pick one server-side and discard the rest: <code>count: 2</code>. Asking for more than you use wastes quota.</p>
+
+  <h3>Decide when to call</h3>
+  <p>Not every turn. Humour that fires constantly stops being humour. Gate on a context classifier, a user signal, or a long silence. The expensive call is the one that lands in the wrong moment.</p>
+</section>
+
+<section>
+  <div class="sec-label">05 · Error handling</div>
+  <h1 class="sec-title">Plan for refusal and quota.</h1>
+  <p>Three errors deserve explicit handling. Treat the rest as transient and retry once with jitter.</p>
+  <table>
+    <thead><tr><th>Status</th><th>error</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td>402</td><td><code>quota_exceeded</code></td><td>Fall back silently. Check <code>Retry-After</code> for backoff. Alert your ops channel if it persists past the period reset.</td></tr>
+      <tr><td>422</td><td><code>unsafe_context</code></td><td>Skip humour for this turn. Do not surface a "rejected" message to the user.</td></tr>
+      <tr><td>429</td><td><code>rate_limited</code></td><td>Honour <code>Retry-After</code>. Apply a token bucket on your side to stay under burst.</td></tr>
+      <tr><td>5xx</td><td><code>upstream_unreachable</code> etc.</td><td>One retry with 250 ms jitter. After that, silent fallback.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <div class="sec-label">06 · Caching</div>
+  <h1 class="sec-title">When repetition kills, when it does not.</h1>
+  <p>User-facing utterances should not be cached per user. If the user hears the same line twice, the humour is dead.</p>
+  <p>Abstract beats may be cached freely. A game quest's "first failure" beat, a marketing copy slot, a recurring NPC line. The cache key should include <code>lang</code>, <code>register</code>, and a deterministic hash of the abstract context. Refresh when content updates.</p>
+
+  <div class="callout">
+    <strong>A reasonable budget.</strong> A game pre-generates ten items per NPC per beat per language at content-update time. The runtime samples without calling Alberei in the hot path. The total quota cost is bounded by content surface, not by playtime.
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">07 · Quota and observability</div>
+  <h1 class="sec-title">Watch the headers.</h1>
+  <p>Every successful response includes <code>X-RateLimit-Daily-Remaining</code>, <code>X-RateLimit-Monthly-Remaining</code>, and <code>X-RateLimit-Burst-Remaining</code>. Read them, log them, alert when monthly remaining crosses below twenty percent of quota.</p>
+  <p><code>GET /alberei/v1/usage</code> returns the current state without consuming a call. Use it on a dashboard.</p>
+</section>
+
+<section>
+  <div class="sec-label">08 · Where this can go wrong</div>
+  <h1 class="sec-title">The common pitfalls.</h1>
+  <ul>
+    <li><strong>Calling on every turn.</strong> Quota burns fast and humour gets cheap. Gate.</li>
+    <li><strong>Asking for <code>count: 5</code> when you display one.</strong> You paid for five. Use them or ask for fewer.</li>
+    <li><strong>Showing the rejection.</strong> A <code>422</code> means skip, not "I refused that for you."</li>
+    <li><strong>Mixing registers in a session.</strong> The user notices, even if they cannot name it.</li>
+    <li><strong>Caching per user.</strong> The first laugh costs trust the second time.</li>
+    <li><strong>Hard failure on 5xx.</strong> Silence is a valid response from a humour module.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="sec-label">09 · Where to go from here</div>
+  <h1 class="sec-title">Companion documents.</h1>
+  <dl class="kv-table">
+    <dt>Methodology</dt><dd>How Alberei structures the problem of humour generation. Register, structure, cultural frame.</dd>
+    <dt>Use Cases</dt><dd>Five product shapes worked through end to end, with integration patterns.</dd>
+    <dt>API reference</dt><dd><code>alberei.de/api</code> · the complete request, response, and status code table.</dd>
+  </dl>
+  <p>Questions: <code>api@alberei.de</code>.</p>
+</section>
+
+</div>
+</div>
+</body>
+</html>

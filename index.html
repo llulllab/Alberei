@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ERXHZQ4WWN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ERXHZQ4WWN');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alberei — Modular Humor Engine</title>
+<meta name="description" content="Alberei is a modular humor engine that generates comedy through combinatorial AI. Available in 12 languages including English, Deutsch, Français, Español, Türkçe, 日本語, and more.">
+<link rel="canonical" href="https://alberei.de/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alberei.de/">
+<meta property="og:title" content="Alberei — Modular Humor Engine">
+<meta property="og:description" content="A modular humor engine that generates comedy through combinatorial AI. Available in 12 languages.">
+<meta property="og:image" content="https://alberei.de/Alberei.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alberei — Modular Humor Engine">
+<meta name="twitter:description" content="A modular humor engine that generates comedy through combinatorial AI. Available in 12 languages.">
+<meta name="twitter:image" content="https://alberei.de/Alberei.jpg">
+
+  <!-- Same font family as your reference page -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root{
+      --bg:#000000;
+      --surface:#111111;
+      --surface-elevated:#181818;
+      --border:#222222;
+      --border-light:#2a2a2a;
+      --text-primary:#e8e4de;
+      --text-secondary:#8a857e;
+      --text-muted:#5a5650;
+      --accent:#c9b99a;
+      --accent-dim: rgba(201, 185, 154, 0.10);
+      --accent-dim-2: rgba(201, 185, 154, 0.06);
+    }
+
+    html, body { height: 100%; }
+
+    body{
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 1.5rem;
+      min-height: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::before{
+      content:'';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events:none;
+    }
+
+    .wrap{
+      width: 100%;
+      max-width: 720px;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.4rem;
+      padding-top: 3rem;
+      padding-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1{
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .hero-gif{
+      max-width: 220px;
+      width: 50%;
+      height: auto;
+      margin: 0.2rem 0;
+    }
+
+    .grid{
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      padding: 0.25rem;
+    }
+
+    .lang{
+      display: block;
+      text-decoration: none;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 0.9rem 0.85rem;
+      text-align: center;
+      transition: transform 0.12s ease, border-color 0.2s ease, background 0.2s ease;
+      user-select: none;
+      min-height: 72px;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .lang:hover{
+      border-color: var(--accent);
+      background: var(--accent-dim-2);
+      transform: translateY(-1px);
+    }
+
+    .code{
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .label{
+      font-size: 1.0rem;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .label[dir="rtl"]{
+      direction: rtl;
+      unicode-bidi: plaintext;
+    }
+
+    .hint{
+      margin-top: 0.2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* API banner — visible promo for B2B API surface */
+    .api-banner{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 1.1rem 1.2rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: background 0.2s ease, border-color 0.2s ease;
+      text-align: center;
+    }
+    .api-banner:hover{
+      background: var(--accent-dim-2);
+      border-color: var(--text-primary);
+    }
+    .api-banner .api-eyebrow{
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .api-banner .api-title{
+      font-family: 'EB Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .api-banner .api-title em{
+      font-style: italic;
+      color: var(--accent);
+    }
+    .api-banner .api-sub{
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.4;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer{
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+    }
+
+    .site-footer a{
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .site-footer a:hover{
+      color: var(--accent);
+    }
+
+    .site-footer .sep{
+      color: var(--border-light);
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px){
+      body{ padding: 1rem; }
+      .wrap{ padding-top: 1.5rem; gap: 1.1rem; }
+      .hero-gif{ max-width: 150px; }
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+      .lang{ min-height: 68px; padding: 0.85rem 0.75rem; }
+      .site-footer{ font-size: 0.65rem; gap: 0.35rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .lang{ transition: none; }
+      .lang:hover{ transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <h1>Alberei</h1>
+
+    <img src="hi.gif" alt="Alberei" class="hero-gif" />
+
+    <a href="api/" class="api-banner">
+      <span class="api-eyebrow">New · For builders</span>
+      <span class="api-title">Alberei API <em>v1</em></span>
+      <span class="api-sub">Robots and apps don't need to be funny. We are. Plug it in.</span>
+    </a>
+
+    <nav class="grid" aria-label="Language selection">
+      <a class="lang" href="en.html" lang="en">
+        <span class="label">English</span>
+      </a>
+
+      <a class="lang" href="fr.html" lang="fr">
+        <span class="label">Français</span>
+      </a>
+
+      <a class="lang" href="zh.html" lang="zh">
+        <span class="label">中文</span>
+      </a>
+
+      <a class="lang" href="hi.html" lang="hi">
+        <span class="label">हिन्दी</span>
+      </a>
+
+      <a class="lang" href="es.html" lang="es">
+        <span class="label">Español</span>
+      </a>
+
+      <a class="lang" href="ar.html" lang="ar">
+        <span class="label" dir="rtl">العربية</span>
+      </a>
+
+      <a class="lang" href="bn.html" lang="bn">
+        <span class="label">বাংলা</span>
+      </a>
+
+      <a class="lang" href="pt.html" lang="pt">
+        <span class="label">Português</span>
+      </a>
+
+      <a class="lang" href="tr.html" lang="tr">
+        <span class="label">Türkçe</span>
+      </a>
+
+      <a class="lang" href="ja.html" lang="ja">
+        <span class="label">日本語</span>
+      </a>
+
+      <a class="lang" href="it.html" lang="it">
+        <span class="label">Italiano</span>
+      </a>
+
+      <a class="lang" href="de.html" lang="de">
+        <span class="label">Deutsch</span>
+      </a>
+    </nav>
+
+    <div style="text-align:center; padding:1.5rem 0; font-size:0.85rem; color:#586069; border-top:1px solid #eaecef; margin-top:2rem;">
+      <div style="margin-bottom:0.5rem;">Conçu et développé en France</div>
+      <a href="https://llulllab.com/mentions-legales.html" style="color:#0366d6; text-decoration:none;">Mentions Légales</a>
+      &nbsp;·&nbsp;
+      <a href="https://llulllab.com/privacy-policy.html" style="color:#0366d6; text-decoration:none;">Privacy Policy</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:contact@llulllab.com" style="color:#0366d6; text-decoration:none;">contact@llulllab.com</a>
+      &nbsp;·&nbsp;
+      <a href="https://feix.app" target="_blank" rel="noopener" style="color:#0366d6; text-decoration:none;">Created by Feix</a>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberei: signing you in</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--surface:#0d0d0d;--border:#2a2a2a;--text:#e8e4de;--dim:#8a857e;--accent:#c9b99a}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:2rem;-webkit-font-smoothing:antialiased}
+.card{max-width:420px;width:100%;text-align:center;border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:48px 32px}
+h1{font-family:'EB Garamond',serif;font-weight:500;font-size:1.6rem;margin-bottom:14px;color:#fff}
+p{color:var(--dim);font-size:0.95rem;line-height:1.55;margin-bottom:18px}
+.error{color:#ff8a7a}
+.ok{color:var(--accent)}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:s 0.7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Alberei</h1>
+  <p id="status"><span class="spin"></span>Signing you in...</p>
+  <p id="next" style="display:none"><a href="/">Continue</a></p>
+</div>
+<script>
+const status = document.getElementById('status');
+const next = document.getElementById('next');
+const params = new URLSearchParams(location.search);
+const token = params.get('token');
+const lang = params.get('lang') || 'en';
+
+async function go() {
+  if (!token) {
+    status.textContent = 'Missing or invalid link.';
+    status.className = 'error';
+    next.style.display = 'block';
+    return;
+  }
+  try {
+    const r = await fetch('https://api.llulllab.com/alberei/auth/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    });
+    if (!r.ok) {
+      const t = await r.text();
+      status.textContent = 'Link expired or already used.';
+      status.className = 'error';
+      next.style.display = 'block';
+      return;
+    }
+    const data = await r.json();
+    if (!data.jwt) throw new Error('no jwt');
+    localStorage.setItem('alberei_jwt', data.jwt);
+    status.textContent = 'Signed in. Redirecting...';
+    status.className = 'ok';
+    setTimeout(() => { location.href = '/' + lang + '.html'; }, 800);
+  } catch (e) {
+    status.textContent = 'Could not sign you in. Try requesting a new link.';
+    status.className = 'error';
+    next.style.display = 'block';
+  }
+}
+go();
+</script>
+</body>
+</html>

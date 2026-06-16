@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alberei — آلة الفكاهة المعيارية</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Share+Tech+Mono&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface-elevated: #181818;
+      --border: #222222;
+      --border-light: #2a2a2a;
+      --text-primary: #e8e4de;
+      --text-secondary: #8a857e;
+      --text-muted: #5a5650;
+      --accent: #c9b99a;
+      --accent-dim: rgba(201, 185, 154, 0.08);
+      --user-bg: #1c1a17;
+      --error: #a0413a;
+      --matrix-green: #00ff41;
+      --matrix-green-dim: rgba(0, 255, 65, 0.08);
+      --matrix-green-mid: rgba(0, 255, 65, 0.35);
+      --font-arabic: 'Noto Sans Arabic', 'DM Sans', sans-serif;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-arabic);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      direction: rtl;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      height: 92vh;
+      max-height: 780px;
+      animation: containerIn 0.8s ease-out;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes containerIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 2.5rem 0 1.2rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      line-height: 1;
+      direction: ltr;
+    }
+
+    header .tagline {
+      font-family: var(--font-arabic);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      font-weight: 400;
+    }
+
+    /* ── Auth controls in header ── */
+    .auth-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      align-self: center;
+    }
+
+    .user-email {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      direction: ltr;
+    }
+
+    .auth-btn {
+      padding: 0.4rem 0.8rem;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-family: var(--font-arabic);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .auth-btn:hover {
+      color: var(--error);
+      border-color: var(--error);
+      background: rgba(160, 65, 58, 0.06);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── Auth Gate ── */
+    .auth-gate {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ── App Logo ── */
+    .app-logo {
+      width: 196px;
+      height: 196px;
+      border: 1px solid var(--border-light);
+      margin-top: 1.2rem;
+
+      border-radius: 50%;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: transparent;
+    }
+
+    .app-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      /* Crops transparent padding inside the PNG */
+      transform: scale(1.22);
+      transform-origin: center;
+      display: block;
+    }
+/* ── Matrix-style feature text ── */
+    .matrix-features {
+      max-width: 460px;
+      text-align: right;
+      padding: 1rem 1.2rem;
+      background: var(--matrix-green-dim);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      position: relative;
+    }
+
+    .matrix-features::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 65, 0.03) 2px,
+          rgba(0, 255, 65, 0.03) 4px
+        );
+      pointer-events: none;
+    }
+
+    .matrix-features p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--matrix-green);
+      line-height: 1.6;
+      text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .matrix-features p.ar-text {
+      font-family: var(--font-arabic);
+      font-size: 0.78rem;
+      line-height: 1.9;
+      direction: rtl;
+    }
+
+    .matrix-features p + p {
+      margin-top: 0.35rem;
+    }
+
+    .matrix-features .try-this {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+    }
+
+    .google-sign-in-btn {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      font-family: var(--font-arabic);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .google-sign-in-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .google-sign-in-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ── Chat Area ── */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.4rem 0.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-light) transparent;
+    }
+
+    .chat-area:empty::before {
+      content: 'صِف الموقف. اترك الباقي لي.';
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-style: italic;
+      letter-spacing: 0.01em;
+      align-self: center;
+      margin-top: 30%;
+      font-family: var(--font-arabic);
+    }
+
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-track { background: transparent; }
+    .chat-area::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+    /* ── Messages ── */
+    .msg {
+      max-width: 82%;
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      letter-spacing: 0.005em;
+      animation: msgIn 0.35s ease-out;
+      position: relative;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .msg.user {
+      align-self: flex-start;
+      background: var(--user-bg);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      color: var(--text-primary);
+    }
+
+    .msg.bot {
+      align-self: flex-end;
+      background: transparent;
+      color: var(--text-secondary);
+      padding-right: 1rem;
+      padding-left: 0;
+      border-right: 2px solid var(--accent);
+      border-left: none;
+      font-family: var(--font-arabic);
+      font-size: 0.96rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .msg.bot.error {
+      border-right-color: var(--error);
+      color: var(--error);
+    }
+
+    .msg.bot.loading {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── Input Area ── */
+    .input-area {
+      flex-shrink: 0;
+      padding-top: 0.8rem;
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 0;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s ease;
+    }
+
+    .input-row:focus-within {
+      border-color: var(--accent);
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-arabic);
+      font-size: 0.88rem;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+      direction: rtl;
+      text-align: right;
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    button#btn {
+      padding: 0.85rem 1.6rem;
+      background: transparent;
+      color: var(--accent);
+      border: none;
+      border-right: 1px solid var(--border);
+      border-left: none;
+      font-family: var(--font-arabic);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    button#btn:hover {
+      background: var(--accent-dim);
+      color: var(--text-primary);
+    }
+
+    button#btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid var(--accent);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-left: 6px;
+      margin-right: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    footer a {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s ease;
+      direction: ltr;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .llull-logo {
+      width: 48px;
+      height: auto;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
+
+    .llull-logo:hover {
+      opacity: 0.8;
+    }
+
+    /* ── Utility ── */
+    .hidden { display: none !important; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      body { padding: 1rem; }
+      .container { height: 96vh; max-height: none; }
+      header h1 { font-size: 1.5rem; }
+      .msg { max-width: 90%; }
+      .user-email { max-width: 100px; }
+      .matrix-features { max-width: 100%; }
+      .matrix-features p { font-size: 0.65rem; }
+      .matrix-features p.ar-text { font-size: 0.7rem; }
+    }
+  
+    .magic-link-form { display:flex; gap:0.5rem; flex-direction:column; max-width:320px; margin:1rem auto; }
+    .magic-link-form input { padding:0.7rem 0.9rem; background:#0d0d0d; border:1px solid #2a2a2a; color:#e8e4de; font-family:inherit; font-size:0.95rem; border-radius:4px; }
+    .magic-link-form input:focus { outline:none; border-color:#c9b99a; }
+    .magic-link-form button { padding:0.75rem 1rem; background:#c9b99a; color:#000; border:none; font-family:inherit; font-size:0.9rem; font-weight:500; letter-spacing:0.05em; cursor:pointer; border-radius:4px; transition:opacity .2s; }
+    .magic-link-form button:hover { opacity:0.85; }
+    .magic-link-form button:disabled { opacity:0.5; cursor:default; }
+    .magic-msg { color:#c9b99a; font-size:0.9rem; text-align:center; margin:1rem auto; max-width:320px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>Alberei</h1>
+        <span class="tagline">محرك الفكاهة المعياري</span>
+      </div>
+      <div class="auth-controls">
+        <span class="user-email hidden" id="userEmail"></span>
+        <button class="auth-btn hidden" id="signOutBtn">تسجيل الخروج</button>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Auth Gate: shown when NOT signed in -->
+    <div class="auth-gate" id="authGate">
+      <div class="app-logo">
+        <img src="alberei.png" alt="Alberei" />
+      </div>
+
+      <div class="matrix-features">
+        <p class="ar-text">◂ هل تريد الذهاب إلى مقابلة عمل متوترة وأنت مستعد تمامًا؟</p>
+        <p class="ar-text">◂ هل تكتب نصًا وتحتاج نسخة مضحكة منه؟</p>
+        <p class="ar-text">◂ هل تريد أن يسامحك شخص ما؟</p>
+        <p class="ar-text">◂ هل أصدقاؤك مملّون جدًا؟</p>
+        <p class="try-this ar-text">جرّب الآن!</p>
+      </div>
+
+            <form class="magic-link-form" id="magicForm" autocomplete="off">
+        <input type="email" id="emailInput" dir="rtl" placeholder="بريدك الإلكتروني" required aria-label="email" />
+        <button type="submit" id="sendLinkBtn">إرسال رابط الدخول</button>
+      </form>
+      <p class="magic-msg hidden" id="magicMsg">تحقق من بريدك الإلكتروني.</p>
+
+      <p style="font-size:11px; color:#5a5650; text-align:center; margin-top:0;">
+        بالدخول، توافق على:
+        <a href="legal.html#terms" style="color:#c9b99a;">Terms</a> ·
+        <a href="legal.html#privacy" style="color:#c9b99a;">Privacy</a>
+      </p>
+    </div>
+
+    <!-- Chat: shown when signed in -->
+    <div class="chat-area hidden" id="chat"></div>
+
+    <div class="input-area hidden" id="inputArea">
+      <div class="divider" style="margin-bottom: 0.8rem;"></div>
+      <div class="input-row">
+        <input type="text" id="msg" placeholder="أخبرني عن الموقف…" autocomplete="off" />
+        <button id="btn" onclick="send()">إرسال</button>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://llulllab.com" target="_blank" rel="noopener">Llull Lab</a>
+      <a href="https://llulllab.com" target="_blank" rel="noopener">
+        <img
+          class="llull-logo"
+          src="https://raw.githubusercontent.com/llulllab/llulllab.github.io/main/LULL%20Logo.png"
+          alt="Llull Lab"
+        />
+      </a>
+    </footer>
+  </div>
+
+    <!-- Magic-link auth + chat -->
+  <script>
+    const API_BASE = 'https://api.llulllab.com';
+    const STORAGE_KEY = 'alberei_jwt';
+
+    const authGate    = document.getElementById('authGate');
+    const chatArea    = document.getElementById('chat');
+    const inputArea   = document.getElementById('inputArea');
+    const userEmailEl = document.getElementById('userEmail');
+    const signOutBtn  = document.getElementById('signOutBtn');
+    const msgInput    = document.getElementById('msg');
+    const magicForm   = document.getElementById('magicForm');
+    const magicMsg    = document.getElementById('magicMsg');
+    const sendLinkBtn = document.getElementById('sendLinkBtn');
+    const emailInput  = document.getElementById('emailInput');
+
+    function decodeJwt(jwt) {
+      try {
+        const p = jwt.split('.');
+        if (p.length !== 3) return null;
+        const payload = JSON.parse(atob(p[1].replace(/-/g,'+').replace(/_/g,'/')));
+        if (!payload.exp || payload.exp < Math.floor(Date.now()/1000)) return null;
+        return payload;
+      } catch (e) { return null; }
+    }
+
+    function showChat(email) {
+      authGate.classList.add('hidden');
+      chatArea.classList.remove('hidden');
+      inputArea.classList.remove('hidden');
+      userEmailEl.classList.remove('hidden');
+      signOutBtn.classList.remove('hidden');
+      userEmailEl.textContent = email || '';
+      msgInput.focus();
+    }
+    function showGate() {
+      authGate.classList.remove('hidden');
+      chatArea.classList.add('hidden');
+      inputArea.classList.add('hidden');
+      userEmailEl.classList.add('hidden');
+      signOutBtn.classList.add('hidden');
+    }
+
+    function bootstrap() {
+      const jwt = localStorage.getItem(STORAGE_KEY);
+      const payload = jwt ? decodeJwt(jwt) : null;
+      if (payload) { showChat(payload.email); }
+      else { localStorage.removeItem(STORAGE_KEY); showGate(); }
+    }
+
+    magicForm && magicForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = (emailInput.value || '').trim();
+      if (!email) return;
+      sendLinkBtn.disabled = true;
+      const orig = sendLinkBtn.textContent;
+      sendLinkBtn.textContent = '...';
+      try {
+        const r = await fetch(API_BASE + '/alberei/auth/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (!r.ok) throw new Error('request failed');
+        magicForm.classList.add('hidden');
+        magicMsg.classList.remove('hidden');
+      } catch (err) {
+        sendLinkBtn.disabled = false;
+        sendLinkBtn.textContent = orig;
+        alert('Could not send link. Try again.');
+      }
+    });
+
+    signOutBtn && signOutBtn.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      if (chatArea) chatArea.innerHTML = '';
+      showGate();
+    });
+
+    bootstrap();
+  </script>
+
+  <!-- Chat logic -->
+  <script>
+    const CHAT_API = 'https://api.llulllab.com/alberei/chat';
+    const chat    = document.getElementById('chat');
+    const input   = document.getElementById('msg');
+    const btn     = document.getElementById('btn');
+
+    let isSending = false;
+
+    input && input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !isSending) send();
+    });
+
+    function addMessage(text, role, classes = []) {
+      const div = document.createElement('div');
+      div.className = ['msg', role, ...classes].join(' ');
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    async function send() {
+      if (isSending) return;
+      const message = input.value.trim();
+      if (!message) return;
+      const jwt = localStorage.getItem('alberei_jwt');
+      if (!jwt) { location.reload(); return; }
+
+      addMessage(message, 'user');
+      input.value = '';
+      isSending = true;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+
+      const loader = addMessage('\u2026', 'bot', ['loading']);
+
+      try {
+        const res = await fetch(CHAT_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + jwt
+          },
+          body: JSON.stringify({ input: message, sessionId: 'web' })
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('alberei_jwt');
+          loader.textContent = 'Session expired. Please sign in again.';
+          loader.classList.remove('loading');
+          loader.classList.add('error');
+          setTimeout(() => location.reload(), 1500);
+          return;
+        }
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        const raw = await res.text();
+        let reply;
+        try {
+          const data = JSON.parse(raw);
+          reply = data.output !== undefined ? (typeof data.output==='string'?data.output:JSON.stringify(data.output))
+                 : data.text !== undefined ? data.text : raw;
+        } catch (e) { reply = raw; }
+        loader.textContent = reply;
+        loader.classList.remove('loading');
+      } catch (err) {
+        loader.textContent = 'Error: ' + err.message;
+        loader.classList.remove('loading');
+        loader.classList.add('error');
+      } finally {
+        isSending = false;
+        btn.disabled = false;
+        btn.textContent = 'Send';
+        input.focus();
+      }
+    }
+  </script>
+</body>
+</html>

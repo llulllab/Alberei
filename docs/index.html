@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alberei Documentation: Integration, Methodology, Use Cases</title>
+<meta name="description" content="Integration guide, methodology, and use cases for the Alberei modular humour engine. REST API in 12 languages with four named registers.">
+<link rel="canonical" href="https://alberei.de/docs/">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alberei.de/docs/">
+<meta property="og:title" content="Alberei Documentation">
+<meta property="og:description" content="Integration guide, methodology, and use cases for the Alberei API.">
+<meta property="og:image" content="https://alberei.de/Alberei.jpg">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000;--surface:#0d0d0d;--surface-2:#141414;--border:#222;--border-light:#2a2a2a;
+  --text:#e8e4de;--text-dim:#8a857e;--text-mute:#5a5650;
+  --accent:#c9b99a;--accent-dim:rgba(201,185,154,0.10);
+  --serif:'EB Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  --max:1080px;--pad:clamp(20px,4vw,40px);
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.layout{position:relative;z-index:1;max-width:var(--max);margin:0 auto;padding:clamp(40px,7vw,80px) var(--pad) 0;display:grid;grid-template-columns:230px 1fr;gap:48px}
+@media(max-width:820px){.layout{grid-template-columns:1fr;gap:24px}aside{position:static!important;border-right:none!important;padding-right:0!important;border-bottom:1px solid var(--border);padding-bottom:24px}}
+aside{position:sticky;top:32px;align-self:start;border-right:1px solid var(--border);padding-right:24px;font-family:var(--mono);font-size:.78rem}
+aside h4{color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;font-size:.7rem;margin-bottom:14px;font-weight:500}
+aside ul{list-style:none;padding:0;margin:0 0 24px}
+aside li{margin-bottom:10px}
+aside a{color:var(--text-dim);text-decoration:none;transition:.2s;border-left:1px solid transparent;padding-left:10px;display:block}
+aside a:hover,aside a.active{color:var(--accent);border-left-color:var(--accent)}
+main{min-width:0}
+.eyebrow{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:18px}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,5vw,2.7rem);line-height:1.15;letter-spacing:-.01em;margin-bottom:14px;color:#fff}
+.lede{font-family:var(--serif);font-size:clamp(1.05rem,1.8vw,1.2rem);color:var(--text-dim);max-width:680px;margin-bottom:36px}
+section{padding:48px 0;border-bottom:1px solid var(--border);scroll-margin-top:24px}
+section:last-of-type{border-bottom:none}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,2.6vw,1.7rem);margin-bottom:14px;color:#fff}
+h3{font-family:var(--sans);font-weight:500;font-size:1.02rem;margin:26px 0 10px;color:#fff;letter-spacing:.2px}
+p{color:var(--text-dim);margin-bottom:14px;max-width:720px}
+ul{padding-left:1.2em;color:var(--text-dim);margin-bottom:14px;max-width:720px}
+li{margin-bottom:6px}
+code,pre{font-family:var(--mono);font-size:.85rem}
+code{background:var(--surface);padding:1px 6px;border-radius:3px;color:var(--accent);border:1px solid var(--border)}
+pre{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:16px 18px;overflow-x:auto;color:var(--text);line-height:1.55;margin:14px 0 22px}
+pre code{background:none;padding:0;border:none;color:inherit;font-size:inherit}
+.callout{background:var(--accent-dim);border:1px solid var(--accent);border-radius:6px;padding:18px 22px;margin:18px 0;color:var(--text)}
+.callout strong{color:var(--accent)}
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.dl{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;text-decoration:none;color:var(--text);transition:.25s;display:block}
+.dl:hover{border-color:var(--accent);background:var(--surface-2)}
+.dl .name{font-family:var(--serif);font-size:1.1rem;color:#fff;margin-bottom:6px}
+.dl .meta{font-family:var(--mono);font-size:.72rem;color:var(--text-mute);letter-spacing:1px;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--accent);font-weight:500;font-family:var(--mono);font-size:.76rem;letter-spacing:.6px;text-transform:uppercase}
+td{color:var(--text-dim)}
+footer{margin-top:48px;padding:32px 0 40px;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:.78rem;color:var(--text-mute);grid-column:1/-1}
+footer .footer-line{margin:4px 0;line-height:1.7}
+footer a{color:var(--text-mute);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--accent)}
+footer .footer-sep{margin:0 10px;opacity:.6}
+@media(max-width:600px){body{font-size:15px}footer{font-size:.74rem}pre{padding:14px;font-size:.8rem}}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside>
+  <h4>Documentation</h4>
+  <ul>
+    <li><a href="#quickstart">Quickstart</a></li>
+    <li><a href="#methodology">Methodology</a></li>
+    <li><a href="#usecases">Use cases</a></li>
+    <li><a href="#integration">Integration patterns</a></li>
+    <li><a href="#usage">Usage endpoint</a></li>
+    <li><a href="#safety">Safety and refusal</a></li>
+    <li><a href="#downloads">Downloads</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <h4>See also</h4>
+  <ul>
+    <li><a href="../api/">API reference</a></li>
+    <li><a href="../">Conversational interface</a></li>
+    <li><a href="https://llulllab.com/">Llull Lab</a></li>
+  </ul>
+</aside>
+
+<main>
+
+<div class="eyebrow">Alberei Documentation · v1</div>
+<h1>Build with Alberei</h1>
+<p class="lede">Alberei is a modular humour engine accessible over a small REST surface. This document is everything an integrator needs to ship: methodology, integration patterns for the most common product shapes, safety semantics, and downloadable guides.</p>
+
+<section id="quickstart">
+  <h2>Quickstart</h2>
+  <p>One endpoint, one token. Send a context and get back items.</p>
+<pre><code>curl -X POST https://api.llulllab.com/alberei/v1/generate \
+  -H "Content-Type: application/json" \
+  -H "X-Api-Token: YOUR_TOKEN" \
+  -d '{"lang":"en","context":"a robot apologising for being late","count":3,"register":"warm"}'</code></pre>
+  <p>The full request and response shape lives in the <a href="../api/" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">API reference</a>.</p>
+</section>
+
+<section id="methodology">
+  <h2>Methodology</h2>
+  <p>Alberei treats humour as a combinatorial problem across three orthogonal axes: register, structure, and cultural frame. A request specifies the first; the engine selects the second and third per language.</p>
+
+  <h3>Register</h3>
+  <p>The voice. Four named registers in v1: <code>wry</code>, <code>absurd</code>, <code>deadpan</code>, <code>warm</code>. Picking a register is a product decision, not a generation parameter to be tuned per call. A wellbeing companion will likely stay in <code>warm</code>; a sarcastic productivity assistant will stay in <code>wry</code>.</p>
+
+  <h3>Structure</h3>
+  <p>The mechanism by which an item lands. The public taxonomy returned in <code>items[].structure</code>:</p>
+  <ul>
+    <li><code>misdirection</code>: the second clause reframes the first</li>
+    <li><code>literal-overshoot</code>: a metaphor taken too far on purpose</li>
+    <li><code>self-deprecation</code>: the speaker is the target</li>
+    <li><code>juxtaposition</code>: incongruous pairing in one frame</li>
+    <li><code>anticlimax</code>: promised escalation, delivered deflation</li>
+    <li><code>escalation</code>: momentum carried past sense</li>
+    <li><code>deflation</code>: the expected payoff withheld</li>
+    <li><code>surreal-shift</code>: local logic broken without warning</li>
+    <li><code>deadpan-statement</code>: no flag that humour is happening</li>
+    <li><code>warm-twist</code>: kindness reframes apparent slight</li>
+  </ul>
+
+  <h3>Cultural frame</h3>
+  <p>Each language generates with its own cultural framing. Bengali humour is not English humour translated; Japanese deadpan is not English deadpan with a different surface. Frames are not exposed as parameters; the engine selects them based on <code>lang</code>.</p>
+
+  <p class="note">The public taxonomy is stable across v1. Additive expansion is non-breaking and will be announced in the changelog.</p>
+</section>
+
+<section id="usecases">
+  <h2>Use cases</h2>
+
+  <h3>Embodied agents and social robots</h3>
+  <p>Trigger Alberei in the conversational loop when a context invites colour: a routine apology, an idle moment, an answer to a small-talk cue. Pick <code>warm</code> or <code>deadpan</code> depending on the persona. Cache nothing per user; humour that repeats stops being humour.</p>
+
+  <h3>Voice assistants and smart speakers</h3>
+  <p>Generate ahead of TTS so latency lands inside the speech-synthesis budget. Prefer <code>short</code> length for spoken delivery. Use <code>audience</code> as a per-household tag so analytics can compare register receptions without sending PII.</p>
+
+  <h3>Customer-service chatbots</h3>
+  <p>Use Alberei selectively. A humour line in a refund flow can derail trust; a humour line in a delivery-status flow can soften a wait. Gate on context classifier, not on every turn.</p>
+
+  <h3>Game NPC dialogue</h3>
+  <p>Pre-generate batches per quest beat and cache by <code>(lang, register, beat_id)</code>. Sample at runtime. Refresh the cache when content updates.</p>
+
+  <h3>Writing assistants and content tools</h3>
+  <p>Surface Alberei as an "add humour" command operating on the selected paragraph. Show all <code>count</code> items so the author chooses. Always show the <code>structure</code> tag in the editor sidebar so the author can ask for a different mechanism.</p>
+
+  <div class="callout">
+    <strong>Inaugural pilot.</strong> Phi-Yo Embodied, Llull Lab's wellbeing companion robot, uses Alberei as its humour module. The integration uses the <code>warm</code> register and short length, with a per-session cap to keep humour scarce and intentional.
+  </div>
+</section>
+
+<section id="integration">
+  <h2>Integration patterns</h2>
+
+  <h3>JavaScript (Node, browser)</h3>
+<pre><code>const r = await fetch('https://api.llulllab.com/alberei/v1/generate', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'X-Api-Token': process.env.ALBEREI_TOKEN },
+  body: JSON.stringify({ lang: 'en', context, count: 3, register: 'wry' })
+});
+const data = await r.json();
+const item = data.items[Math.floor(Math.random() * data.items.length)];</code></pre>
+
+  <h3>Python</h3>
+<pre><code>import os, requests
+r = requests.post(
+  'https://api.llulllab.com/alberei/v1/generate',
+  headers={'X-Api-Token': os.environ['ALBEREI_TOKEN'], 'Content-Type': 'application/json'},
+  json={'lang': 'en', 'context': context, 'count': 3, 'register': 'wry'},
+  timeout=10
+)
+items = r.json()['items']</code></pre>
+
+  <h3>Embodied agent SDK pattern (pseudo)</h3>
+<pre><code>on_idle_or_greeting(ctx):
+  if ctx.user_signal == 'small_talk' or ctx.silence_ms > 1500:
+    items = alberei.generate(lang=ctx.lang, context=ctx.summary(),
+                              register='warm', length='short', count=2)
+    speak(items[0].text)
+    log_humour(ctx.session_id, items[0].id, items[0].structure)</code></pre>
+
+  <h3>Quota awareness</h3>
+  <p>For dashboards and pre-flight checks, query <code>GET /alberei/v1/usage</code> with the same <code>X-Api-Token</code> header. The response returns <code>monthly_remaining</code>, <code>daily_remaining</code>, <code>burst_remaining_per_minute</code>, and the active monthly window. Generation responses already echo the per-call remaining counters in <code>X-RateLimit-*</code> headers; use the dedicated endpoint when you need quota without making a billed call.</p>
+
+  <h3>Caching</h3>
+  <p>Do not cache per user-facing utterance; repetition kills the effect. Caching by abstract beat (NPC quest beats, marketing copy slots) is fine. Cache key should include <code>lang</code>, <code>register</code>, and a deterministic context hash.</p>
+
+  <h3>Fallback</h3>
+  <p>On <code>503 upstream_unreachable</code> or any 5xx, fall back to silence or to a generic non-humorous reply. Never ship a placeholder humour line that exposes that the engine failed.</p>
+</section>
+
+<section id="usage">
+  <h2>Usage endpoint</h2>
+  <p>Query a token's current quota state without spending a call. Returns tier, monthly quota and remaining, daily remaining, per-minute burst remaining, and the active monthly window. <code>GET</code> and <code>POST</code> are both accepted.</p>
+<pre><code>curl https://api.llulllab.com/alberei/v1/usage \
+  -H "X-Api-Token: YOUR_TOKEN"</code></pre>
+  <p>Full field list and status codes in the <a href="../api/#usage" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">API reference</a>.</p>
+</section>
+
+<section id="safety">
+  <h2>Safety and refusal</h2>
+  <p>The engine refuses contexts involving hate-speech targets, sexual content involving minors, impersonation of identifiable living individuals, and instructions to deceive humans about the bot's nature. Refusal returns <code>HTTP 422</code> with body:</p>
+<pre><code>{"error": "unsafe_context", "message": "This context cannot be processed."}</code></pre>
+  <p>The response is intentionally neutral. Do not surface details to end users; treat the response as a generic refusal and proceed without humour for that turn.</p>
+</section>
+
+<section id="downloads">
+  <h2>Downloads</h2>
+  <div class="dl-grid">
+    <a class="dl" href="Alberei_Integration_Guide.pdf">
+      <div class="name">Integration Guide</div>
+      <div class="meta">PDF · v1 · 2026-05</div>
+    </a>
+    <a class="dl" href="Alberei_Methodology.pdf">
+      <div class="name">Methodology</div>
+      <div class="meta">PDF · v1 · 2026-05</div>
+    </a>
+    <a class="dl" href="Alberei_Use_Cases.pdf">
+      <div class="name">Use Cases</div>
+      <div class="meta">PDF · v1 · 2026-05</div>
+    </a>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Access requests and integration questions: <a href="mailto:api@alberei.de" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">api@alberei.de</a>.</p>
+  <p>Llull Lab, Paris. <a href="https://llulllab.com/" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)">llulllab.com</a>.</p>
+</section>
+
+<footer>
+  <div class="footer-line">Alberei · A Llull Lab product</div>
+  <div class="footer-line">Conçu et développé en France</div>
+  <div class="footer-line"><a href="../legal.html">Legal</a><span class="footer-sep">·</span><a href="https://llulllab.com/">llulllab.com</a></div>
+  <div class="footer-line">API host: <code style="background:none;border:none;padding:0;color:var(--text-mute)">api.llulllab.com</code></div>
+</footer>
+
+</main>
+</div>
+</body>
+</html>
