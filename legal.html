@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alberei — Legal</title>
+  <title>Alberei: Legal</title>
 
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
 
@@ -280,7 +280,7 @@
   <header class="page-header">
     <h1><a href="index.html">Alberei</a></h1>
     <div class="page-subtitle">Legal Notice & Privacy Policy</div>
-    <div class="last-updated">Last updated: 30 March 2026</div>
+    <div class="last-updated">Last updated: 25 July 2026</div>
   </header>
 
   <!-- TAB NAV -->
@@ -300,67 +300,102 @@
       <span class="num">Article 1</span>
       <span class="heading-text">Introduction</span>
     </div>
-    <p>This Privacy Policy explains how Alberei, developed by Llull Lab, handles personal data. Alberei is designed to operate with minimal data exposure.</p>
+    <p>This Privacy Policy explains how Alberei, a product of Llull Lab (Paris, France), handles personal data. Llull Lab is the data controller. You can reach us at <a href="mailto:contact@llulllab.com">contact@llulllab.com</a>. Alberei is designed to operate with minimal data collection.</p>
 
     <div class="article-heading">
       <span class="num">Article 2</span>
-      <span class="heading-text">Google User Data</span>
+      <span class="heading-text">Sign-in and Account Data</span>
     </div>
-    <p>Alberei's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
-    <p>Alberei uses Google Sign-In via Firebase Authentication. When signing in, we may receive:</p>
+    <p>Alberei signs you in with a link sent to your email address. There is no Google Sign-In and no third-party identity provider. When you request a sign-in link, we store:</p>
     <ul class="legal-list">
-      <li>Email address</li>
-      <li>Display name</li>
-      <li>A unique authentication identifier</li>
+      <li>Your email address</li>
+      <li>An internal user identifier</li>
+      <li>A language preference</li>
+      <li>Whether your email address has been verified</li>
+      <li>The status of your account, and the dates your record was created and last updated</li>
+      <li>The sign-in link itself: a single-use token bound to your email address, with the time it was created, the time it expires, and the time it was used</li>
     </ul>
-    <p>This data is used <strong>exclusively</strong> for authentication and account management purposes. It is not used for advertising, profiling, behavioral tracking, or for training artificial intelligence or machine learning models.</p>
+    <p>The link expires 15 minutes after it is issued. To limit abuse, we count the sign-in link records already held for your email address in the previous five minutes. That count is calculated from the records listed above and is not stored separately.</p>
 
     <div class="article-heading">
       <span class="num">Article 3</span>
-      <span class="heading-text">User Prompts and Processing</span>
+      <span class="heading-text">API Access Data</span>
     </div>
-    <p>Alberei does not intentionally store user prompts. User inputs are processed transiently for the sole purpose of generating a response. Prompts are not retained for manual review, profiling, or behavioral tracking.</p>
-    <p>Llull Lab does not perform systematic monitoring of user inputs or generated outputs but reserves the right to implement technical or access restrictions where required by law or in cases of misuse.</p>
+    <p><strong>If you ask for API access,</strong> we store a reference for your request, your email address, your organisation name, your intended use, your expected volume, the access tier you are interested in, the status of the request, the date it was made, the date it was reviewed, and <strong>any notes we write about the request while reviewing it</strong>. Those notes are our own internal comments, and you can ask to see them.</p>
+    <p><strong>If we invite you,</strong> we store the email address the invitation was sent to, the invitation code, the tier it grants, when it was issued, when it expires, whether and when it was used, which API token used it, and <strong>any notes we attach to it</strong>. <strong>If you received an invitation you did not ask for, your email address was given to us by the person or organisation that asked us to invite you, or it was an address you had already given us.</strong> You can ask us at any time where your address came from, ask to see any notes, and ask us to delete the record.</p>
+    <p><strong>If access is granted,</strong> we store the API token, its tier, the contact email address and organisation name attached to it, its status, when it was created, when it expires, and <strong>any notes we attach to it</strong>.</p>
+    <p><strong>For each API call</strong> we keep a usage record: the token, <strong>the date and time of the call</strong>, the language, the register, the requested length, a non-reversible hash of the request context, the request and item counts, the response status code, any error code, and the response time. Usage records do not contain the text you send or the text we return.</p>
 
     <div class="article-heading">
       <span class="num">Article 4</span>
-      <span class="heading-text">Data Sharing</span>
+      <span class="heading-text">Your Inputs and How They Are Processed</span>
     </div>
-    <p>We do not sell, rent, or trade personal data.</p>
-    <p>Authentication services are provided through Google Firebase, which may process data according to its own privacy policies. For more information, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
-    <p>Authentication data may be processed by Google on servers located outside the European Union, in accordance with Google's data processing terms.</p>
+    <p>Llull Lab does not store the prompts you submit or the content Alberei generates. We process your input only to produce a response, and we do not keep it afterwards.</p>
+    <p>To produce that response, your input is sent to Anthropic PBC, which operates the language model Alberei calls. <strong>This processing takes place on servers outside the European Union.</strong> The transfer is covered by the European Commission's Standard Contractual Clauses (Decision 2021/914), under Article 46(2)(c) GDPR. A copy of the safeguards can be requested at the address in Article 1.</p>
+    <p><strong>Anthropic processes your input under its own terms, which allow it to retain that input for a period it defines, for purposes such as safety and abuse monitoring.</strong> That retention is outside our control. When you ask us to delete your data we delete what we hold; we cannot shorten a retention period applied by that provider.</p>
+    <p>Your input is not used by us for advertising, profiling, behavioural tracking, or to train models. Llull Lab does not systematically monitor inputs or generated outputs, but reserves the right to apply technical or access restrictions where required by law or in cases of misuse.</p>
 
     <div class="article-heading">
       <span class="num">Article 5</span>
-      <span class="heading-text">Cookies</span>
+      <span class="heading-text">Legal Bases</span>
     </div>
-    <p>Alberei does not use third-party analytics or tracking cookies. Authentication-related cookies may be set by Firebase for session management purposes only.</p>
+    <ul class="legal-list">
+      <li><strong>Signing you in, keeping your account, generating a response, and providing API access once granted:</strong> Article 6(1)(b) GDPR, performance of the service you asked for.</li>
+      <li><strong>Reviewing an API access request or an invitation before any access exists, including the notes we write while reviewing:</strong> Article 6(1)(f) GDPR, our legitimate interest in assessing who we grant access to. You may object at any time.</li>
+      <li><strong>Rate limiting, usage records, and serving these pages (which involves your IP address reaching our hosting provider):</strong> Article 6(1)(f) GDPR, our legitimate interest in keeping the service available, secure, and free of abuse. You may object at any time.</li>
+      <li><strong>Transfers outside the European Union:</strong> Article 46(2)(c) GDPR, Standard Contractual Clauses.</li>
+    </ul>
 
     <div class="article-heading">
       <span class="num">Article 6</span>
-      <span class="heading-text">Data Retention</span>
+      <span class="heading-text">Retention</span>
     </div>
-    <p>Authentication-related data is retained only as long as the user account remains active. Users may request deletion of their authentication data at any time by contacting: <a href="mailto:contact@llulllab.com">contact@llulllab.com</a>. Upon receiving a valid request, we will delete the data within 30 days and confirm the deletion by email.</p>
+    <ul class="legal-list">
+      <li><strong>Sign-in links:</strong> deleted automatically. A scheduled job runs every hour and removes every sign-in record older than one hour, so such a record exists for at most two hours.</li>
+      <li><strong>API usage records:</strong> deleted automatically by the same scheduled job once they are more than 12 months old.</li>
+      <li><strong>Account records, API tokens, invitations, and access requests:</strong> these are <strong>not</strong> deleted automatically. <strong>We keep them until you ask us to delete them, and this is true whether or not they are still live: a declined access request, an expired invitation, and a revoked token are all kept on the same terms as active ones.</strong></li>
+    </ul>
+    <p>Deletion requests go to <a href="mailto:contact@llulllab.com">contact@llulllab.com</a>. We act within 30 days and confirm by email. As stated in Article 4, a deletion request cannot reach data held by our model provider under its own retention period.</p>
 
     <div class="article-heading">
       <span class="num">Article 7</span>
-      <span class="heading-text">User Rights (GDPR / CNIL)</span>
+      <span class="heading-text">Who Else Processes Your Data</span>
     </div>
-    <p>In accordance with applicable data protection laws, including the General Data Protection Regulation (GDPR) and CNIL regulations, users have the following rights:</p>
+    <p>We do not sell, rent, or trade personal data. Besides Anthropic PBC (Article 4), the following providers process data on our instructions:</p>
     <ul class="legal-list">
-      <li>Access to their personal data</li>
+      <li><strong>GitHub Pages</strong> (United States), which serves these pages and, in doing so, receives your IP address.</li>
+      <li><strong>Resend</strong> (United States), which delivers the sign-in emails described in Article 2 and therefore processes your email address.</li>
+      <li><strong>Our application database and automation servers</strong>, which are located in the European Union.</li>
+    </ul>
+    <p>For the providers located outside the European Union, we rely on the data processing terms each of them publishes, which incorporate the European Commission's Standard Contractual Clauses. You can ask us for the current details at the address in Article 1.</p>
+
+    <div class="article-heading">
+      <span class="num">Article 8</span>
+      <span class="heading-text">Cookies and Local Storage</span>
+    </div>
+    <p>Alberei sets no cookies. It uses no third-party analytics and no tracking.</p>
+    <p>When you sign in, a session token is stored in your browser's local storage so that you stay signed in. <strong>That token is a signed JSON Web Token and it contains your email address, your internal user identifier, and its issue and expiry times. It is valid for 30 days.</strong> This storage is necessary for the service you requested, which is why it does not require consent. You can clear it at any time from your browser, which signs you out.</p>
+
+    <div class="article-heading">
+      <span class="num">Article 9</span>
+      <span class="heading-text">Your Rights (GDPR / CNIL)</span>
+    </div>
+    <p>In accordance with applicable data protection laws, including the General Data Protection Regulation (GDPR) and CNIL regulations, you have the following rights:</p>
+    <ul class="legal-list">
+      <li>Access to your personal data, including any notes we hold about you, and to know where we obtained it</li>
       <li>Correction of inaccurate data</li>
-      <li>Deletion of their authentication-related data</li>
-      <li>Portability of their data</li>
+      <li>Deletion of your data</li>
+      <li>Restriction of processing, and objection to processing based on legitimate interest</li>
+      <li>Portability of your data</li>
       <li>The right to lodge a complaint with the <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a></li>
     </ul>
     <p>Requests may be sent to: <a href="mailto:contact@llulllab.com">contact@llulllab.com</a>. We will respond within 30 days.</p>
 
     <div class="article-heading">
-      <span class="num">Article 8</span>
+      <span class="num">Article 10</span>
       <span class="heading-text">Security</span>
     </div>
-    <p>Reasonable technical measures are implemented through Firebase Authentication to protect authentication-related data. However, no system can guarantee absolute security.</p>
+    <p>Sign-in links are single use and expire after 15 minutes. Account and usage data are held in the European Union, and access to them is restricted. No system can guarantee absolute security.</p>
 
   </section>
 
